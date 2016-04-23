@@ -1,0 +1,62 @@
+#!/usr/bin/env python
+import psycopg2
+import sys
+import os, shutil
+if not any([x for x in sys.path if "orla-lib" in x]):
+    sys.path.append("/".join(sys.path[0].split("/")[:-1] + ["/orla-lib/"]))
+
+from steps import step, run
+from slinky import Slinky
+
+
+@step(prereqs=[".scratchdir"], tags="drop")
+def db(dbname):
+    """
+    Drop the database. The prereq is there to ensure that this completes after the scratch dir has been recreated.
+    :param dbname:
+    :return: None
+    """
+    dsn = "dbname=postgres"
+    with psycopg2.connect(dsn) as dbconn:
+        dbconn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
+        with dbconn.cursor() as cursor:
+            cursor.execute("""DROP DATABASE IF EXISTS "{}" """.format(dbname))
+
+
+@step(tags="drop")
+def scratchdir(scratch, state):
+    """
+    Empties out, and selectively recreates, the scratch dir.
+    :param scratch:
+    :param state:
+    :return: None
+    """
+    assert scratch.startswith("/tmp/o")
+    if os.path.exists(scratch):
+        for f in os.listdir(scratch):
+            fp = os.path.join(scratch, f)
+            if os.path.isfile(fp):
+                os.unlink(fp)
+            elif os.path.isdir(fp): shutil.rmtree(fp)
+
+    # This leaves the whole dir structure (which slinky already set up for us) in a mess, so recreate it.
+    Slinky({}, None, state)
+    # Yep: that simple.
+
+    # Slinky needs to delete the following:
+    #    '/tmp/orla-slinky-build/orla/state/run/drop.scratch'
+    # This file (which depends on the name fo this fn obviously) would have been created before we deleted the scratch
+    # dir above: so  recreate it.
+    assert state.startswith(scratch)
+    rundir = os.path.join(state, "run")
+    this_filename = __file__.split(os.path.sep)[-1]
+    import inspect
+    name_id = 3
+    this_id = 0
+    this_fn = inspect.stack()[this_id][name_id]
+    ds = os.path.join(rundir, "{}.{}".format(this_filename, this_fn))
+    with open(ds, 'a'):
+        os.utime(ds, None)
+
+if __name__ == "__main__":
+    run(locals())

@@ -1,0 +1,25 @@
+#!/usr/bin/env python
+import sys
+import os
+if not any([x for x in sys.path if "orla-lib" in x]):
+    sys.path.append("/".join(sys.path[0].split("/")[:-1] + ["/orla-lib/"]))
+
+from steps import step, run
+import liblibre
+import libtwitter
+
+
+@step(prereqs=["init", "schema"], tags="load")
+def libre(dbname, data_libre):
+
+    for fn in sorted([f for f in os.listdir(data_libre) if f.endswith(".txt")]):
+        liblibre.load(os.path.join(data_libre, fn), dbname)
+
+@step(prereqs=["init", "schema", "source.twitter"], tags="load")
+def twitter(dbname, data_twitter):
+    for fn in sorted([f for f in os.listdir(data_twitter) if f.startswith("twitter.") and f.endswith(".jsons")]):
+        libtwitter.load(os.path.join(data_twitter, fn), dbname)
+
+
+if __name__ == "__main__":
+    run(locals())

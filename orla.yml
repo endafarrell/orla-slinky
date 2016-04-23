@@ -1,0 +1,20 @@
+name: orla
+channels:
+  #- MGIMM  # for tweepy
+  - davidbgonzalez  # for the many python-twitter dependencies (why the F are tehy not all done together?)
+  - jacksongs
+dependencies:
+  - python=2.7
+  - psycopg2
+  - pyyaml
+  - pandas
+  - python-twitter  # https://anaconda.org/jacksongs/python-twitter
+  - beautifulsoup4
+
+# If you want to make changes to this, here's the rundown:
+# - source deactivate  # assuming you're already using this {name} conda env
+# - conda remove --name orla --all
+#   - Y
+# - conda env create --file orla.yml # many test cycles may be needed to get the right channels. A lot of
+#                                    # `anaconda search -t conda tweepy | grep osx` was needed. Annoyingly.
+# - source activate orla

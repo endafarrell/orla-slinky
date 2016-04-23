@@ -1,0 +1,4 @@
+long_term_archive: "./long-term-archive"
+
+data_libre: "{long_term_archive}/FreeStyle Libre"
+data_twitter: "{long_term_archive}/Twitter"

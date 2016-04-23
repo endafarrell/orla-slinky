@@ -1,0 +1,9 @@
+drop: drop the database and unlink the scratch dir. Use with caution.
+init: check that things look OK
+schema: add the new schema and DDL for tables, indices etc
+source: go online to get external data
+load: read each of the lines from each of the freqs files, enrich them and persist enriched in db
+transform: add up some numbers that will be wanted in the database
+crunch:  add up some numbers that will be wanted
+report: build the report
+yellowstone: nadda

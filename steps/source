@@ -1,0 +1,136 @@
+#!/usr/bin/env python
+import sys
+import os
+import json
+import yaml
+import codecs
+import datetime
+from bs4 import BeautifulSoup
+import twitter as tw
+
+if not any([x for x in sys.path if "orla-lib" in x]):
+    sys.path.append("/".join(sys.path[0].split("/")[:-1] + ["/orla-lib/"]))
+
+from steps import step, run
+
+
+@step(prereqs=["init"], tags="source")
+def twitter(data_twitter, config_twitter):
+
+    # there's a problem with twitter in that it will only give you the last 200 DMs. Rubbish!
+    # So,
+    tweets = []
+    html_input_file = "taken_from_twitter.com.html"
+    html_output_file = "twitter.taken_from_twitter.com.jsons"
+
+    if html_input_file in os.listdir(data_twitter) and not html_output_file in os.listdir(data_twitter):
+        print "Processing the HTML file {}".format(html_input_file),
+
+        with codecs.open(os.path.join(data_twitter, html_input_file), encoding="utf8") as f:
+            soup = BeautifulSoup(f.read(), "html.parser")
+            for dmc in soup.find_all("div", class_=["DirectMessage"]):
+                sender_id = None
+                sender_screen_name = None
+                if "data-message-id" in dmc.attrs:
+                    id = dmc.attrs["data-message-id"]
+                    anchors = dmc.find_all("a", attrs={"data-user-id": True})
+                    assert len(anchors) == 1, "{} a for {}".format(len(anchors), dmc.prettify())
+                    if "data-user-id" in anchors[0].attrs:
+                        sender_id = anchors[0].attrs["data-user-id"]
+                        sender_screen_name = anchors[0].attrs["href"][1:]
+                    paragraphs = dmc.find_all("p")
+                    assert len(paragraphs) <= 1, "{} p for {}".format(len(paragraphs), dmc.prettify())
+                    if len(paragraphs):
+                        text = paragraphs[0].getText()
+                        timestamp_span = dmc.find_all("span", class_="_timestamp")
+                        assert len(timestamp_span) == 1
+                        created_at_long = int(timestamp_span[0].attrs["data-time"])
+                        tweet = {
+                            "created_at": created_at_long,
+                            "id": id,
+                            "recipient_id": 882443870,
+                            "recipient_screen_name": "endafarrell_med",
+                            "sender_id": sender_id,
+                            "sender_screen_name": sender_screen_name,
+                            "text": text
+                        }
+                        tweets.append(json.dumps(tweet))
+
+        assert tweets
+        assert len(tweets)
+        with codecs.open(os.path.join(data_twitter, html_output_file), encoding="utf8", mode="wb") as f:
+            for tweet in tweets:
+                f.write(tweet)
+                f.write("\n")
+        print "wrote {} tweets/DMs to {}".format(len(tweets), html_output_file)
+
+    # Set up the API for calling
+    twitter_config = yaml.safe_load(open(config_twitter).read())
+    api = tw.Api(consumer_key=twitter_config["twitter_oauth_consumer_key"],
+                 consumer_secret=twitter_config["twitter_oauth_consumer_secret"],
+                 access_token_key=twitter_config["twitter_oauth_access_token"],
+                 access_token_secret=twitter_config["twitter_oauth_access_token_secret"])
+
+    # Given rate limits, and that there's only the most recent DMs available, what have we already seen?
+    ids = set()
+    for j in [j for j in os.listdir(data_twitter) if j.startswith("twitter.") and j.endswith(".jsons")]:
+        print "About to read {} file {}".format(data_twitter, j),
+        with codecs.open(os.path.join(data_twitter, j), encoding="utf8") as f:
+            jids = set([json.loads(line)["id"] for line in f])
+            print "extracted another {} tweets/DMs".format(len(jids)),
+            ids = ids.union(jids)
+            print " and now we have {} tweets/DMS".format(len(ids))
+    assert ids
+    prior_max_id = max(ids) if ids else 0
+    print "There are already {} tweets/DMs with the most recent being {}".format(len(ids), prior_max_id)
+
+    # It seems we go backwards through the timeline
+    new_dms = []
+    twitter_error = None
+    try:
+        # These will be the most recent (good, as generally I'll already have something somewhat recent).
+        dms = api.GetDirectMessages(max_id=prior_max_id,
+                                    # full_text=True)
+                                    count=200)
+        if not len(dms):
+            print "We seem to already have the most recent based on a prior id of {}".format(prior_max_id)
+        else:
+            new_ids = set()
+            while len(dms):
+                for dm in dms:
+                    # print dm.AsJsonString()
+                    dm_id = dm.GetId()
+                    if not (dm_id in ids or dm_id in new_ids):
+                        new_ids.add(dm_id)
+                        new_dms.append(dm.AsJsonString())
+
+                # The max_id for the next call will be the min id for what we've already seen. The API seems to do some
+                # sort of "or equal to".
+                max_id = min(new_ids) if new_ids else prior_max_id
+                if prior_max_id == max_id:
+                    print "After {} dms, max_id is staying the same at {}: break".format(len(new_dms), max_id)
+                    break
+                else:
+                    prior_max_id = max_id
+                print "After {} dms, max_id is {}: requesting more".format(len(new_dms), max_id),
+                dms = api.GetDirectMessages(max_id=max_id,
+                                            # full_text=True)
+                                            count=200)
+                print "and got {}".format(len(dms))
+
+    except twitter.error.TwitterError, te:
+        twitter_error = te
+    finally:
+        now = datetime.datetime.strftime(datetime.datetime.utcnow(), "%F.%T")
+        lta_filename = "{}/twitter.{}.jsons".format(data_twitter, now)
+        if new_dms:
+            with codecs.open(lta_filename, mode="wb", encoding="utf8") as f:
+                for dm in new_dms:
+                    f.write(dm)
+                    f.write('\n')
+    if twitter_error:
+        raise twitter_error
+
+
+if __name__ == "__main__":
+    run(locals())

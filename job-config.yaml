@@ -1,0 +1,7 @@
+template: "template0"
+dbname: "orla"
+scratch: "/tmp/orla-slinky-build/{dbname}"
+outdir: "{scratch}/out"
+state: "{scratch}/state"
+default_step_timeout: "10m" # Steps will fail after this time.
+reports_path: "{outdir}/reports"

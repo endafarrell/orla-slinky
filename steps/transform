@@ -1,0 +1,58 @@
+#!/usr/bin/env python
+"""
+Transforms the sources selectively to provide a far-more consistent, only required, attributes from the various sources.
+"""
+import sys
+if not any([x for x in sys.path if "orla-lib" in x]):
+    sys.path.append("/".join(sys.path[0].split("/")[:-1] + ["/orla-lib/"]))
+
+from steps import step, run
+import eutils
+
+
+@step(prereqs=["init", "schema", "load.libre"], tags="transform")
+def libre(dbname):
+    """
+    Transforms the libre sources as needed.
+    :param dbname:
+    :return: None
+    """
+
+    sql = u"""
+        CREATE TABLE transform_libre AS (
+            SELECT DISTINCT
+                to_timestamp(extract(epoch FROM "Time"::timestamp)) AS created_at,
+                "Historic Glucose [mmol/L]" AS cgm,
+                "Scan Glucose [mmol/L]" AS scan
+            FROM load_libre
+            WHERE
+                "Historic Glucose [mmol/L]" IS NOT NULL INTEGER
+            OR "Scan Glucose [mmol/L]" IS NOT NULL
+        )
+    """
+    eutils.execute_sqls_serially(dbname, [sql])
+
+@step(prereqs=["init", "schema", "load.twitter"], tags="transform")
+def twitter(dbname):
+    """
+    Transforms the twitter sources as needed.
+    :param dbname:
+    :return: None
+    """
+    sql = u"""
+        CREATE TABLE transform_twitter AS (
+            SELECT DISTINCT
+                CASE isnumeric(created_at)
+                    WHEN TRUE THEN to_timestamp(created_at::double precision)
+                    ELSE to_timestamp(extract('epoch' FROM created_at::timestamp))
+                END AS  created_at,
+                text
+            FROM load_twitter
+            ORDER BY created_at
+        )
+    """
+    eutils.execute_sqls_serially(dbname, [sql])
+
+
+if __name__ == "__main__":
+    run(locals())

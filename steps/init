@@ -1,0 +1,34 @@
+#!/usr/bin/env python
+import os
+import sys
+if not any([x for x in sys.path if "orla-lib" in x]):
+    sys.path.append("/".join(sys.path[0].split("/")[:-1] + ["/orla-lib/"]))
+
+from steps import step, run
+import eutils
+
+
+# @step(tags="init")
+# def verify_only_local_lib():
+#     for path in sys.path:
+#         if "datafoundry/lib" in path:
+#             raise ValueError(path + " found, something is wrong.")
+#
+
+@step(tags="init")
+def verify_params_look_ok(dbname,
+                          # these are all dirs
+                          scratch, outdir, state, reports_path):
+
+    for d in [scratch, outdir, state, reports_path]:
+        assert not d.endswith("/"), "The config for dirs are expected to *not* end with a /, but '{}' does.".format(d)
+
+    # Silly code: this connect call will fail if we can't connect to the dbname, and thus
+    # the assert will always pass.
+    # conn = eutils.connect(dbname)
+    # assert conn
+
+
+
+if __name__ == "__main__":
+    run(locals())

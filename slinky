@@ -1,0 +1,208 @@
+#!/usr/bin/env python
+import code
+
+import sys
+import os
+import argparse
+import yaml
+import pprint
+
+basedir = sys.path[0]
+
+##### WARNING ### This slinky file exists at the root, therefore do not copy-paste this next line to other files.
+##### WARNING ### Instead, take something from ./lib or ./steps
+if not any([x for x in sys.path if "orla-lib" in x]):
+    sys.path.append("/".join(sys.path[0].split("/") + ["orla-lib/"]))
+##### WARNING ENDS.
+
+# pprint.pprint(sys.path)
+
+DEFAULT_CONFIGS = [os.path.join(basedir, 'job-config.yaml'),
+                   os.path.join(basedir, 'data-config.yaml')]
+
+#import steps
+from slinky import Slinky, Config
+
+
+def check(slinky, goals, config, args):
+    slinky.check_config(goals, config)
+
+
+def show(slinky, goals, config, args):
+    seen = set()
+
+    def printer(step, path):
+        repeat = step.name in seen
+        # the second time that a subgraph would appear, just note it
+        # without fully reprinting it (or the output is uselessly
+        # huge)
+        seen.add(step.name)
+        name = "[%s]" % step.name if step.tag else step.name
+        status = " [done]" if not step.tag and step.isdone() else ""
+        template = "(%s)" if repeat else "%s"
+        print "| " * len(path) + template % (name + status)
+        return repeat
+    slinky.traverse(printer, goals)
+
+
+def graph(slinky, goals, config, args):
+    slinky.generate_dot_graph(goals, sys.stdout)
+
+
+def fake(slinky, goals, config, args):
+    slinky.fake(goals, args.only, args.but)
+
+
+def clear(slinky, goals, config, args):
+    slinky.clear(goals, args.only, args.but)
+
+
+def undo(slinky, goals, config, args):
+    return slinky.undo(goals, config, spew=args.spew, only=args.only, but=args.but)
+
+
+def go(slinky, goals, config, args):
+    return slinky.go(goals, config, spew=args.spew, only=args.only, but=args.but)
+
+
+def recon(slinky, goals, config, args):
+    return slinky.go(goals, config, spew=args.spew, only=args.only, but=args.but, recon=True)
+
+
+def showall(slinky, goals, config, args):
+    for step in sorted(slinky.steps.keys()):
+        print step
+
+
+# def debug(sig, frame):
+#     """Interrupt running process, and provide a python prompt for
+#     interactive debugging."""
+#     d = {'_frame': frame}  # Allow access to frame object.
+#     d.update(frame.f_globals)  # Unless shadowed by global
+#     d.update(frame.f_locals)
+#
+#     i = code.InteractiveConsole(d)
+#     message = "Signal received : entering python shell.\nTraceback:\n"
+#     message += ''.join(traceback.format_stack(frame))
+#     i.interact(message)
+#
+#
+# def listen():
+#     signal.signal(signal.SIGUSR1, debug)  # Register handler
+
+
+def main(argv):
+    #listen()
+    parser = argparse.ArgumentParser(description='Slinkies descend steps!')
+
+    # for tracking multiple actions with mutually dependent ordering (like include and exclude)
+    def ordered(action, queue):
+        class OrderedActions(argparse.Action):
+            def __call__(self, parser, namespace, values, option_string=None):
+                queue.append((action, values))
+        return OrderedActions
+
+    includes_excludes = [('include', os.path.join(basedir, 'steps/*'))]
+    parser.add_argument('--include', action=ordered("include", includes_excludes), metavar="GLOB",
+                        help='file or glob of files to be added to the list of stepfiles (ordered with other includes '
+                             'and excludes); --include steps/* by default')
+    parser.add_argument('--exclude', action=ordered("exclude", includes_excludes), metavar="GLOB",
+                        help='file or glob of files to be dropped from the list of stepfiles (ordered with other '
+                             'includes and excludes); note that because of how fnmatch works, wildcards in excludes '
+                             'span /, while in includes they do not)')
+
+    # what subsets of things to care about
+    parser.add_argument('goals', nargs='*', metavar="goal", help='goals to pursue')
+    parser.add_argument('--only', action='store_true', help='only operate on goal steps')
+    parser.add_argument('--but', action='store_true',
+                        help='operate on prereqs (for run/fake)/consumers (for clear/undo) but not goal steps')
+
+    # what to do with what we care about
+    # implicit option: --go, actually produce the steps; default if none specified below
+    rh = 'instead of run, print the commands that will be run [quoting is a hack; do not necessarily trust]'
+    verbs = {
+        show: dict(help='instead of run, just show selected tree of steps'),
+        graph: dict(help='instead of run, produce a png graph of dependencies in graphviz dot format'),
+        check: dict(help='instead of run, confirm selected tree of steps is viable'),
+        fake: dict(help='instead of run, mark steps/prereqs as completed [careful, sharp edges!]'),
+        clear: dict(help='instead of run, mark steps/prereqs as not completed [careful, sharp edges!]'),
+        undo: dict(help='instead of run, try to reverse backwards to/including named steps [careful, sharp edges!]'),
+        go: dict(help='pursue goals; the default action'),
+        recon: dict(help=rh),
+        showall: dict(help='instead of run, print every known step')
+    }
+    for verb, kwargs in verbs.items():
+        if 'action' not in kwargs:
+            kwargs['action'] = 'store_true'
+        parser.add_argument('--' + verb.func_name, **kwargs)
+
+    # some generally applicable options
+    parser.add_argument('--spew', action='store_true',
+                        help='put all step stderr and stdout to the console (in addition to logs)')
+    parser.add_argument('--config', action='append',
+                        help="default config options (default: %s)" % DEFAULT_CONFIGS,
+                        default=DEFAULT_CONFIGS)
+    parser.add_argument('--tags', default=os.path.join(basedir, 'tags.yaml'),
+                        help="declared tags (default: %(default)s)")
+    parser.add_argument('--verbose', action="store_true")
+    parser.add_argument('--set', '-D', action="append", metavar="KEY=VALUE", dest="extra_configs", default=[],
+                        help="override specific config values")
+
+    #TODO: fail later
+    #parser.add_argument('--fail-later', action='store_true',
+    #    help='if a step fails, continue work on everything still doable before failing')
+
+    args = parser.parse_args(argv[1:])
+
+    # check that we only have one "thing to do" (if zero, that implies "run")
+    # it would be nice to use subparsers for this, but defaulting to "run" seems hard; should be bulk of usage
+    selected_verbs = [verb for verb in verbs if getattr(args, verb.func_name)]
+    if len(selected_verbs) > 1:
+        sys.exit("ERROR: only one of {%s} may be specified (default is '--go')" %
+                 (", ".join([verb.func_name for verb in verbs])))
+    elif selected_verbs:
+        verb = selected_verbs[0]
+    else:
+        verb = go
+
+    if not args.goals and verb is not showall:
+        sys.exit("ERROR: must specify at least one goal (except for --showall)")
+
+    if args.only and args.but:
+        sys.exit("--only and --but do not make sense together")
+
+    if not args.config:
+        args.config = DEFAULT_CONFIGS
+
+    configs = []
+    for config in args.config:
+        configs.append(yaml.safe_load(open(config).read()) or {})
+    cli_config = {}
+    for extra_config in args.extra_configs:
+        k, v = extra_config.split('=', 1)
+        cli_config[k] = yaml.safe_load(v)  # parse yaml for consistency, to get numbers and strings
+                                           # [this may be a bad idea]
+    configs.append(cli_config)
+    config = Config(*configs)
+    if args.verbose:
+        print "Effective Config:"
+        pprint.pprint(config)
+        print
+
+    if 'state' not in config:
+        raise Exception, "state directory not defined" + \
+            ('state' in config.unresolved and " [partially specified as '%s']" % config.unresolved['state'] or "")
+    slinky = Slinky(Slinky.find_stepfiles(includes_excludes), args.tags, config.get('state'))
+
+    if args.verbose:
+        print "using stepfiles:", ", ".join(sorted([os.path.relpath(s.path, basedir) for s in slinky.stepfiles]))
+        print
+    if args.verbose:
+        print "available steps:", ", ".join(sorted(slinky.steps))
+        print
+
+    sys.exit(verb(slinky, args.goals, config, args))
+    
+
+if __name__ == '__main__':
+    main(sys.argv)

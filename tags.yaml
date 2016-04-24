@@ -6,4 +6,3 @@ load: read each of the lines from each of the freqs files, enrich them and persi
 transform: add up some numbers that will be wanted in the database
 crunch:  add up some numbers that will be wanted
 report: build the report
-yellowstone: nadda

@@ -2,3 +2,6 @@ long_term_archive: "./long-term-archive"
 
 data_libre: "{long_term_archive}/FreeStyle Libre"
 data_twitter: "{long_term_archive}/Twitter"
+skip_source_twitter: "false"
+data_smartpix: "{long_term_archive}/SmartPix"
+data_runkeeper: "{long_term_archive}/Runkeeper"

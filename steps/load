@@ -7,11 +7,11 @@ if not any([x for x in sys.path if "orla-lib" in x]):
 from steps import step, run
 import liblibre
 import libtwitter
+import libsmartpix
 
 
 @step(prereqs=["init", "schema"], tags="load")
 def libre(dbname, data_libre):
-
     for fn in sorted([f for f in os.listdir(data_libre) if f.endswith(".txt")]):
         liblibre.load(os.path.join(data_libre, fn), dbname)
 
@@ -19,6 +19,13 @@ def libre(dbname, data_libre):
 def twitter(dbname, data_twitter):
     for fn in sorted([f for f in os.listdir(data_twitter) if f.startswith("twitter.") and f.endswith(".jsons")]):
         libtwitter.load(os.path.join(data_twitter, fn), dbname)
+
+
+@step(prereqs=["source.smartpix"], tags="load")
+def smartpix(dbname, data_smartpix):
+    for dirpath, subdirs, files in os.walk(data_smartpix):
+        for f in files:
+            libsmartpix.load(os.path.join(dirpath, f), dbname)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="ACSPIXIP.xsl" ?>
+<!DOCTYPE IMPORT [
+  <!ELEMENT IMPORT (ACSPIX, IP, IPDATA, STATISTIC, CHECK)>
+  <!ELEMENT ACSPIX     EMPTY>
+    <!ATTLIST ACSPIX
+      Type     CDATA #REQUIRED
+      SN       CDATA #REQUIRED
+      Ver      CDATA #REQUIRED
+    >
+  <!ELEMENT IP    (IPPROFILE*)>
+    <!ATTLIST IP
+      Name     CDATA #REQUIRED
+      SN       CDATA #REQUIRED
+      Dt       CDATA #REQUIRED
+      Tm       CDATA #REQUIRED
+      RestUseDays  CDATA #IMPLIED
+      ActiveProf   CDATA #REQUIRED
+    >
+
+  <!ELEMENT IPPROFILE (IPTIMESLOT*)>
+    <!ATTLIST IPPROFILE
+      Name     CDATA #REQUIRED
+      Active   CDATA #REQUIRED
+      IUday    CDATA #REQUIRED
+    >
+
+  <!ELEMENT IPTIMESLOT EMPTY>
+    <!ATTLIST IPTIMESLOT
+      Number   CDATA #REQUIRED
+      IU       CDATA #REQUIRED
+    >
+
+  <!ELEMENT IPDATA  ((BASAL|BOLUS|EVENT)*)>
+
+  <!ELEMENT BASAL EMPTY>
+   <!ATTLIST BASAL
+       Dt        CDATA #REQUIRED
+       Tm        CDATA #REQUIRED
+       cbrf      CDATA #REQUIRED
+       TBRdec    CDATA #IMPLIED
+       TBRinc    CDATA #IMPLIED
+       profile   CDATA #IMPLIED
+       cmd       CDATA #IMPLIED
+       remark    CDATA #IMPLIED
+   >
+
+  <!ELEMENT BOLUS EMPTY>
+   <!ATTLIST BOLUS
+       Dt        CDATA #REQUIRED
+       Tm        CDATA #REQUIRED
+       type      CDATA #REQUIRED
+       cmd       CDATA #IMPLIED
+       amount    CDATA #REQUIRED
+       remark    CDATA #IMPLIED
+   >
+
+  <!ELEMENT EVENT EMPTY>
+   <!ATTLIST EVENT
+       Dt          CDATA #REQUIRED
+       Tm          CDATA #REQUIRED
+       shortinfo   CDATA #IMPLIED
+       description CDATA #IMPLIED
+   >
+
+  <!ELEMENT ST_TIMERANGE (#PCDATA)>
+    <!ATTLIST ST_TIMERANGE
+      Weeks    CDATA #REQUIRED
+      Dt       CDATA #REQUIRED
+    >
+
+  <!ELEMENT ST_USETIME_PERCENT (#PCDATA)>
+    <!ATTLIST ST_USETIME_PERCENT
+      Val      CDATA #REQUIRED
+    >
+    
+  <!ELEMENT ST_BASAL_IU (#PCDATA)>
+    <!ATTLIST ST_BASAL_IU
+      Val      CDATA #REQUIRED
+    >
+    
+  <!ELEMENT ST_BASAL_PERCENT (#PCDATA)>
+    <!ATTLIST ST_BASAL_PERCENT
+      Val      CDATA #REQUIRED
+    >
+    
+  <!ELEMENT ST_BOLUSFREQ (#PCDATA)>
+    <!ATTLIST ST_BOLUSFREQ
+      Val      CDATA #REQUIRED
+    >
+    
+  <!ELEMENT ST_BOLUS_IU (#PCDATA)>
+    <!ATTLIST ST_BOLUS_IU
+      Val      CDATA #REQUIRED
+    >
+    
+  <!ELEMENT ST_BOLUS_PERCENT (#PCDATA)>
+    <!ATTLIST ST_BOLUS_PERCENT
+      Val      CDATA #REQUIRED
+    >
+    
+  <!ELEMENT STATISTIC (ST_TIMERANGE, ST_USETIME_PERCENT, ST_BASAL_IU, ST_BASAL_PERCENT, ST_BOLUSFREQ, ST_BOLUS_IU, ST_BOLUS_PERCENT)>
+
+  <!ELEMENT CHECK    EMPTY>
+    <!ATTLIST CHECK
+      CRC      CDATA #REQUIRED
+    >
+]>
+
+<IMPORT>
+<ACSPIX Type="2106" SN="UI00539876" Ver="3.01.03"/>
+<IP Name="Combo" SN="10095884    " Dt="2013-03-25" Tm="20:56" ActiveProf="1">
+<IPPROFILE Name="1" Active="1" IUday="20.5" >
+<IPTIMESLOT Number="1" IU="1.1" />
+<IPTIMESLOT Number="2" IU="1.1" />
+<IPTIMESLOT Number="3" IU="1.1" />
+<IPTIMESLOT Number="4" IU="1.1" />
+<IPTIMESLOT Number="5" IU="1.1" />
+<IPTIMESLOT Number="6" IU="1.1" />
+<IPTIMESLOT Number="7" IU="1.2" />
+<IPTIMESLOT Number="8" IU="1.2" />
+<IPTIMESLOT Number="9" IU="0.9" />
+<IPTIMESLOT Number="10" IU="0.7" />
+<IPTIMESLOT Number="11" IU="0.6" />
+<IPTIMESLOT Number="12" IU="0.6" />
+<IPTIMESLOT Number="13" IU="0.6" />
+<IPTIMESLOT Number="14" IU="0.6" />
+<IPTIMESLOT Number="15" IU="0.6" />
+<IPTIMESLOT Number="16" IU="0.6" />
+<IPTIMESLOT Number="17" IU="0.6" />
+<IPTIMESLOT Number="18" IU="0.6" />
+<IPTIMESLOT Number="19" IU="0.7" />
+<IPTIMESLOT Number="20" IU="0.8" />
+<IPTIMESLOT Number="21" IU="0.9" />
+<IPTIMESLOT Number="22" IU="0.9" />
+<IPTIMESLOT Number="23" IU="0.9" />
+<IPTIMESLOT Number="24" IU="0.9" />
+</IPPROFILE>
+<IPPROFILE Name="2" Active="0" IUday="0.0" >
+<IPTIMESLOT Number="1" IU="0.0" />
+<IPTIMESLOT Number="2" IU="0.0" />
+<IPTIMESLOT Number="3" IU="0.0" />
+<IPTIMESLOT Number="4" IU="0.0" />
+<IPTIMESLOT Number="5" IU="0.0" />
+<IPTIMESLOT Number="6" IU="0.0" />
+<IPTIMESLOT Number="7" IU="0.0" />
+<IPTIMESLOT Number="8" IU="0.0" />
+<IPTIMESLOT Number="9" IU="0.0" />
+<IPTIMESLOT Number="10" IU="0.0" />
+<IPTIMESLOT Number="11" IU="0.0" />
+<IPTIMESLOT Number="12" IU="0.0" />
+<IPTIMESLOT Number="13" IU="0.0" />
+<IPTIMESLOT Number="14" IU="0.0" />
+<IPTIMESLOT Number="15" IU="0.0" />
+<IPTIMESLOT Number="16" IU="0.0" />
+<IPTIMESLOT Number="17" IU="0.0" />
+<IPTIMESLOT Number="18" IU="0.0" />
+<IPTIMESLOT Number="19" IU="0.0" />
+<IPTIMESLOT Number="20" IU="0.0" />
+<IPTIMESLOT Number="21" IU="0.0" />
+<IPTIMESLOT Number="22" IU="0.0" />
+<IPTIMESLOT Number="23" IU="0.0" />
+<IPTIMESLOT Number="24" IU="0.0" />
+</IPPROFILE>
+<IPPROFILE Name="3" Active="0" IUday="0.0" >
+<IPTIMESLOT Number="1" IU="0.0" />
+<IPTIMESLOT Number="2" IU="0.0" />
+<IPTIMESLOT Number="3" IU="0.0" />
+<IPTIMESLOT Number="4" IU="0.0" />
+<IPTIMESLOT Number="5" IU="0.0" />
+<IPTIMESLOT Number="6" IU="0.0" />
+<IPTIMESLOT Number="7" IU="0.0" />
+<IPTIMESLOT Number="8" IU="0.0" />
+<IPTIMESLOT Number="9" IU="0.0" />
+<IPTIMESLOT Number="10" IU="0.0" />
+<IPTIMESLOT Number="11" IU="0.0" />
+<IPTIMESLOT Number="12" IU="0.0" />
+<IPTIMESLOT Number="13" IU="0.0" />
+<IPTIMESLOT Number="14" IU="0.0" />
+<IPTIMESLOT Number="15" IU="0.0" />
+<IPTIMESLOT Number="16" IU="0.0" />
+<IPTIMESLOT Number="17" IU="0.0" />
+<IPTIMESLOT Number="18" IU="0.0" />
+<IPTIMESLOT Number="19" IU="0.0" />
+<IPTIMESLOT Number="20" IU="0.0" />
+<IPTIMESLOT Number="21" IU="0.0" />
+<IPTIMESLOT Number="22" IU="0.0" />
+<IPTIMESLOT Number="23" IU="0.0" />
+<IPTIMESLOT Number="24" IU="0.0" />
+</IPPROFILE>
+<IPPROFILE Name="4" Active="0" IUday="0.0" >
+<IPTIMESLOT Number="1" IU="0.0" />
+<IPTIMESLOT Number="2" IU="0.0" />
+<IPTIMESLOT Number="3" IU="0.0" />
+<IPTIMESLOT Number="4" IU="0.0" />
+<IPTIMESLOT Number="5" IU="0.0" />
+<IPTIMESLOT Number="6" IU="0.0" />
+<IPTIMESLOT Number="7" IU="0.0" />
+<IPTIMESLOT Number="8" IU="0.0" />
+<IPTIMESLOT Number="9" IU="0.0" />
+<IPTIMESLOT Number="10" IU="0.0" />
+<IPTIMESLOT Number="11" IU="0.0" />
+<IPTIMESLOT Number="12" IU="0.0" />
+<IPTIMESLOT Number="13" IU="0.0" />
+<IPTIMESLOT Number="14" IU="0.0" />
+<IPTIMESLOT Number="15" IU="0.0" />
+<IPTIMESLOT Number="16" IU="0.0" />
+<IPTIMESLOT Number="17" IU="0.0" />
+<IPTIMESLOT Number="18" IU="0.0" />
+<IPTIMESLOT Number="19" IU="0.0" />
+<IPTIMESLOT Number="20" IU="0.0" />
+<IPTIMESLOT Number="21" IU="0.0" />
+<IPTIMESLOT Number="22" IU="0.0" />
+<IPTIMESLOT Number="23" IU="0.0" />
+<IPTIMESLOT Number="24" IU="0.0" />
+</IPPROFILE>
+<IPPROFILE Name="5" Active="0" IUday="0.0" >
+<IPTIMESLOT Number="1" IU="0.0" />
+<IPTIMESLOT Number="2" IU="0.0" />
+<IPTIMESLOT Number="3" IU="0.0" />
+<IPTIMESLOT Number="4" IU="0.0" />
+<IPTIMESLOT Number="5" IU="0.0" />
+<IPTIMESLOT Number="6" IU="0.0" />
+<IPTIMESLOT Number="7" IU="0.0" />
+<IPTIMESLOT Number="8" IU="0.0" />
+<IPTIMESLOT Number="9" IU="0.0" />
+<IPTIMESLOT Number="10" IU="0.0" />
+<IPTIMESLOT Number="11" IU="0.0" />
+<IPTIMESLOT Number="12" IU="0.0" />
+<IPTIMESLOT Number="13" IU="0.0" />
+<IPTIMESLOT Number="14" IU="0.0" />
+<IPTIMESLOT Number="15" IU="0.0" />
+<IPTIMESLOT Number="16" IU="0.0" />
+<IPTIMESLOT Number="17" IU="0.0" />
+<IPTIMESLOT Number="18" IU="0.0" />
+<IPTIMESLOT Number="19" IU="0.0" />
+<IPTIMESLOT Number="20" IU="0.0" />
+<IPTIMESLOT Number="21" IU="0.0" />
+<IPTIMESLOT Number="22" IU="0.0" />
+<IPTIMESLOT Number="23" IU="0.0" />
+<IPTIMESLOT Number="24" IU="0.0" />
+</IPPROFILE>
+</IP>
+<IPDATA>
+<BOLUS Dt="2013-03-25" Tm="" type="" amount="4.10" remark="Bolus Total"/>
+<BOLUS Dt="2013-03-25" Tm="" type="" amount="5.67" remark="Bolus+Basal Total"/>
+<BASAL Dt="2013-03-25" Tm="20:56" cbrf="0.00" remark="Stop" />
+<BOLUS Dt="2013-03-25" Tm="20:49" type="Std" amount="1.80" cmd="1" />
+<BASAL Dt="2013-03-25" Tm="20:47" cbrf="0.90" profile="1" remark="Run" />
+<EVENT Dt="2013-03-25" Tm="20:45" shortinfo="E4" description="occlusion" />
+<BOLUS Dt="2013-03-25" Tm="20:45" type="Std" amount="1.90" cmd="1" />
+<EVENT Dt="2013-03-25" Tm="20:45" shortinfo="W8" description="bolus cancelled" />
+<BASAL Dt="2013-03-25" Tm="20:45" cbrf="0.00" remark="Stop" />
+<EVENT Dt="2013-03-25" Tm="20:45" shortinfo="E4" description="occlusion" />
+<BOLUS Dt="2013-03-25" Tm="20:03" type="Scr" amount="0.10" />
+<BASAL Dt="2013-03-25" Tm="20:03" cbrf="0.90" profile="1" remark="Run" />
+<BASAL Dt="2013-03-25" Tm="20:03" cbrf="0.00" remark="Stop" />
+<EVENT Dt="2013-03-25" Tm="20:03" shortinfo="E4" description="occlusion" />
+<BASAL Dt="2013-03-25" Tm="20:00" cbrf="0.90" profile="1" />
+<BOLUS Dt="2013-03-25" Tm="19:07" type="Std" amount="0.30" cmd="1" />
+<BASAL Dt="2013-03-25" Tm="19:03" cbrf="0.80" profile="1" remark="Run" />
+<BASAL Dt="2013-03-25" Tm="19:03" cbrf="0.00" remark="time / date set" />
+<BOLUS Dt="2009-01-01" Tm="" type="" amount="0.00" remark="Bolus Total"/>
+<BOLUS Dt="2009-01-01" Tm="" type="" amount="0.00" remark="Bolus+Basal Total"/>
+<BASAL Dt="2009-01-01" Tm="19:00" cbrf="0.00" remark="time / date corrected" />
+<BASAL Dt="2009-01-01" Tm="19:00" cbrf="0.00" remark="time / date set" />
+<BASAL Dt="2009-01-01" Tm="00:00" cbrf="0.00" remark="time / date corrected" />
+<BASAL Dt="2009-01-01" Tm="00:00" cbrf="0.00" remark="power up (time shift back)" />
+</IPDATA>
+<STATISTIC>
+<ST_TIMERANGE Weeks="4" Dt="2013-03-25"/>
+<ST_USETIME_PERCENT Val="98"/>
+<ST_BASAL_IU Val="20.1"/>
+<ST_BASAL_PERCENT Val="28"/>
+<ST_BOLUSFREQ Val="50.9"/>
+<ST_BOLUS_IU Val="52.2"/>
+<ST_BOLUS_PERCENT Val="72"/>
+</STATISTIC>
+<CHECK CRC="0062"/>
+</IMPORT>

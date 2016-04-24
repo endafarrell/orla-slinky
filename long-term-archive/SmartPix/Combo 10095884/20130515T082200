@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="ACSPIXIP.xsl" ?>
+<!DOCTYPE IMPORT [
+  <!ELEMENT IMPORT (ACSPIX, IP, IPDATA, STATISTIC, CHECK)>
+  <!ELEMENT ACSPIX     EMPTY>
+    <!ATTLIST ACSPIX
+      Type     CDATA #REQUIRED
+      SN       CDATA #REQUIRED
+      Ver      CDATA #REQUIRED
+    >
+  <!ELEMENT IP    (IPPROFILE*)>
+    <!ATTLIST IP
+      Name     CDATA #REQUIRED
+      SN       CDATA #REQUIRED
+      Dt       CDATA #REQUIRED
+      Tm       CDATA #REQUIRED
+      RestUseDays  CDATA #IMPLIED
+      ActiveProf   CDATA #REQUIRED
+    >
+
+  <!ELEMENT IPPROFILE (IPTIMESLOT*)>
+    <!ATTLIST IPPROFILE
+      Name     CDATA #REQUIRED
+      Active   CDATA #REQUIRED
+      IUday    CDATA #REQUIRED
+    >
+
+  <!ELEMENT IPTIMESLOT EMPTY>
+    <!ATTLIST IPTIMESLOT
+      Number   CDATA #REQUIRED
+      IU       CDATA #REQUIRED
+    >
+
+  <!ELEMENT IPDATA  ((BASAL|BOLUS|EVENT)*)>
+
+  <!ELEMENT BASAL EMPTY>
+   <!ATTLIST BASAL
+       Dt        CDATA #REQUIRED
+       Tm        CDATA #REQUIRED
+       cbrf      CDATA #REQUIRED
+       TBRdec    CDATA #IMPLIED
+       TBRinc    CDATA #IMPLIED
+       profile   CDATA #IMPLIED
+       cmd       CDATA #IMPLIED
+       remark    CDATA #IMPLIED
+   >
+
+  <!ELEMENT BOLUS EMPTY>
+   <!ATTLIST BOLUS
+       Dt        CDATA #REQUIRED
+       Tm        CDATA #REQUIRED
+       type      CDATA #REQUIRED
+       cmd       CDATA #IMPLIED
+       amount    CDATA #REQUIRED
+       remark    CDATA #IMPLIED
+   >
+
+  <!ELEMENT EVENT EMPTY>
+   <!ATTLIST EVENT
+       Dt          CDATA #REQUIRED
+       Tm          CDATA #REQUIRED
+       shortinfo   CDATA #IMPLIED
+       description CDATA #IMPLIED
+   >
+
+  <!ELEMENT ST_TIMERANGE (#PCDATA)>
+    <!ATTLIST ST_TIMERANGE
+      Weeks    CDATA #REQUIRED
+      Dt       CDATA #REQUIRED
+    >
+
+  <!ELEMENT ST_USETIME_PERCENT (#PCDATA)>
+    <!ATTLIST ST_USETIME_PERCENT
+      Val      CDATA #REQUIRED
+    >
+    
+  <!ELEMENT ST_BASAL_IU (#PCDATA)>
+    <!ATTLIST ST_BASAL_IU
+      Val      CDATA #REQUIRED
+    >
+    
+  <!ELEMENT ST_BASAL_PERCENT (#PCDATA)>
+    <!ATTLIST ST_BASAL_PERCENT
+      Val      CDATA #REQUIRED
+    >
+    
+  <!ELEMENT ST_BOLUSFREQ (#PCDATA)>
+    <!ATTLIST ST_BOLUSFREQ
+      Val      CDATA #REQUIRED
+    >
+    
+  <!ELEMENT ST_BOLUS_IU (#PCDATA)>
+    <!ATTLIST ST_BOLUS_IU
+      Val      CDATA #REQUIRED
+    >
+    
+  <!ELEMENT ST_BOLUS_PERCENT (#PCDATA)>
+    <!ATTLIST ST_BOLUS_PERCENT
+      Val      CDATA #REQUIRED
+    >
+    
+  <!ELEMENT STATISTIC (ST_TIMERANGE, ST_USETIME_PERCENT, ST_BASAL_IU, ST_BASAL_PERCENT, ST_BOLUSFREQ, ST_BOLUS_IU, ST_BOLUS_PERCENT)>
+
+  <!ELEMENT CHECK    EMPTY>
+    <!ATTLIST CHECK
+      CRC      CDATA #REQUIRED
+    >
+]>
+
+<IMPORT>
+<ACSPIX Type="2106" SN="UI00539876" Ver="3.01.03"/>
+<IP Name="Combo" SN="10095884    " Dt="2013-05-15" Tm="08:22" ActiveProf="1">
+<IPPROFILE Name="1" Active="1" IUday="20.5" >
+<IPTIMESLOT Number="1" IU="1.1" />
+<IPTIMESLOT Number="2" IU="1.1" />
+<IPTIMESLOT Number="3" IU="1.1" />
+<IPTIMESLOT Number="4" IU="1.1" />
+<IPTIMESLOT Number="5" IU="1.1" />
+<IPTIMESLOT Number="6" IU="1.1" />
+<IPTIMESLOT Number="7" IU="1.2" />
+<IPTIMESLOT Number="8" IU="1.2" />
+<IPTIMESLOT Number="9" IU="0.9" />
+<IPTIMESLOT Number="10" IU="0.7" />
+<IPTIMESLOT Number="11" IU="0.6" />
+<IPTIMESLOT Number="12" IU="0.6" />
+<IPTIMESLOT Number="13" IU="0.6" />
+<IPTIMESLOT Number="14" IU="0.6" />
+<IPTIMESLOT Number="15" IU="0.6" />
+<IPTIMESLOT Number="16" IU="0.6" />
+<IPTIMESLOT Number="17" IU="0.6" />
+<IPTIMESLOT Number="18" IU="0.6" />
+<IPTIMESLOT Number="19" IU="0.7" />
+<IPTIMESLOT Number="20" IU="0.8" />
+<IPTIMESLOT Number="21" IU="0.9" />
+<IPTIMESLOT Number="22" IU="0.9" />
+<IPTIMESLOT Number="23" IU="0.9" />
+<IPTIMESLOT Number="24" IU="0.9" />
+</IPPROFILE>
+<IPPROFILE Name="2" Active="0" IUday="0.0" >
+<IPTIMESLOT Number="1" IU="0.0" />
+<IPTIMESLOT Number="2" IU="0.0" />
+<IPTIMESLOT Number="3" IU="0.0" />
+<IPTIMESLOT Number="4" IU="0.0" />
+<IPTIMESLOT Number="5" IU="0.0" />
+<IPTIMESLOT Number="6" IU="0.0" />
+<IPTIMESLOT Number="7" IU="0.0" />
+<IPTIMESLOT Number="8" IU="0.0" />
+<IPTIMESLOT Number="9" IU="0.0" />
+<IPTIMESLOT Number="10" IU="0.0" />
+<IPTIMESLOT Number="11" IU="0.0" />
+<IPTIMESLOT Number="12" IU="0.0" />
+<IPTIMESLOT Number="13" IU="0.0" />
+<IPTIMESLOT Number="14" IU="0.0" />
+<IPTIMESLOT Number="15" IU="0.0" />
+<IPTIMESLOT Number="16" IU="0.0" />
+<IPTIMESLOT Number="17" IU="0.0" />
+<IPTIMESLOT Number="18" IU="0.0" />
+<IPTIMESLOT Number="19" IU="0.0" />
+<IPTIMESLOT Number="20" IU="0.0" />
+<IPTIMESLOT Number="21" IU="0.0" />
+<IPTIMESLOT Number="22" IU="0.0" />
+<IPTIMESLOT Number="23" IU="0.0" />
+<IPTIMESLOT Number="24" IU="0.0" />
+</IPPROFILE>
+<IPPROFILE Name="3" Active="0" IUday="0.0" >
+<IPTIMESLOT Number="1" IU="0.0" />
+<IPTIMESLOT Number="2" IU="0.0" />
+<IPTIMESLOT Number="3" IU="0.0" />
+<IPTIMESLOT Number="4" IU="0.0" />
+<IPTIMESLOT Number="5" IU="0.0" />
+<IPTIMESLOT Number="6" IU="0.0" />
+<IPTIMESLOT Number="7" IU="0.0" />
+<IPTIMESLOT Number="8" IU="0.0" />
+<IPTIMESLOT Number="9" IU="0.0" />
+<IPTIMESLOT Number="10" IU="0.0" />
+<IPTIMESLOT Number="11" IU="0.0" />
+<IPTIMESLOT Number="12" IU="0.0" />
+<IPTIMESLOT Number="13" IU="0.0" />
+<IPTIMESLOT Number="14" IU="0.0" />
+<IPTIMESLOT Number="15" IU="0.0" />
+<IPTIMESLOT Number="16" IU="0.0" />
+<IPTIMESLOT Number="17" IU="0.0" />
+<IPTIMESLOT Number="18" IU="0.0" />
+<IPTIMESLOT Number="19" IU="0.0" />
+<IPTIMESLOT Number="20" IU="0.0" />
+<IPTIMESLOT Number="21" IU="0.0" />
+<IPTIMESLOT Number="22" IU="0.0" />
+<IPTIMESLOT Number="23" IU="0.0" />
+<IPTIMESLOT Number="24" IU="0.0" />
+</IPPROFILE>
+<IPPROFILE Name="4" Active="0" IUday="0.0" >
+<IPTIMESLOT Number="1" IU="0.0" />
+<IPTIMESLOT Number="2" IU="0.0" />
+<IPTIMESLOT Number="3" IU="0.0" />
+<IPTIMESLOT Number="4" IU="0.0" />
+<IPTIMESLOT Number="5" IU="0.0" />
+<IPTIMESLOT Number="6" IU="0.0" />
+<IPTIMESLOT Number="7" IU="0.0" />
+<IPTIMESLOT Number="8" IU="0.0" />
+<IPTIMESLOT Number="9" IU="0.0" />
+<IPTIMESLOT Number="10" IU="0.0" />
+<IPTIMESLOT Number="11" IU="0.0" />
+<IPTIMESLOT Number="12" IU="0.0" />
+<IPTIMESLOT Number="13" IU="0.0" />
+<IPTIMESLOT Number="14" IU="0.0" />
+<IPTIMESLOT Number="15" IU="0.0" />
+<IPTIMESLOT Number="16" IU="0.0" />
+<IPTIMESLOT Number="17" IU="0.0" />
+<IPTIMESLOT Number="18" IU="0.0" />
+<IPTIMESLOT Number="19" IU="0.0" />
+<IPTIMESLOT Number="20" IU="0.0" />
+<IPTIMESLOT Number="21" IU="0.0" />
+<IPTIMESLOT Number="22" IU="0.0" />
+<IPTIMESLOT Number="23" IU="0.0" />
+<IPTIMESLOT Number="24" IU="0.0" />
+</IPPROFILE>
+<IPPROFILE Name="5" Active="0" IUday="0.0" >
+<IPTIMESLOT Number="1" IU="0.0" />
+<IPTIMESLOT Number="2" IU="0.0" />
+<IPTIMESLOT Number="3" IU="0.0" />
+<IPTIMESLOT Number="4" IU="0.0" />
+<IPTIMESLOT Number="5" IU="0.0" />
+<IPTIMESLOT Number="6" IU="0.0" />
+<IPTIMESLOT Number="7" IU="0.0" />
+<IPTIMESLOT Number="8" IU="0.0" />
+<IPTIMESLOT Number="9" IU="0.0" />
+<IPTIMESLOT Number="10" IU="0.0" />
+<IPTIMESLOT Number="11" IU="0.0" />
+<IPTIMESLOT Number="12" IU="0.0" />
+<IPTIMESLOT Number="13" IU="0.0" />
+<IPTIMESLOT Number="14" IU="0.0" />
+<IPTIMESLOT Number="15" IU="0.0" />
+<IPTIMESLOT Number="16" IU="0.0" />
+<IPTIMESLOT Number="17" IU="0.0" />
+<IPTIMESLOT Number="18" IU="0.0" />
+<IPTIMESLOT Number="19" IU="0.0" />
+<IPTIMESLOT Number="20" IU="0.0" />
+<IPTIMESLOT Number="21" IU="0.0" />
+<IPTIMESLOT Number="22" IU="0.0" />
+<IPTIMESLOT Number="23" IU="0.0" />
+<IPTIMESLOT Number="24" IU="0.0" />
+</IPPROFILE>
+</IP>
+<IPDATA>
+<BOLUS Dt="2013-05-15" Tm="" type="" amount="7.80" remark="Bolus Total"/>
+<BOLUS Dt="2013-05-15" Tm="" type="" amount="17.12" remark="Bolus+Basal Total"/>
+<BASAL Dt="2013-05-15" Tm="08:21" cbrf="0.00" cmd="2" remark="Stop" />
+<BASAL Dt="2013-05-15" Tm="08:00" cbrf="0.90" profile="1" />
+<BOLUS Dt="2013-05-15" Tm="07:51" type="Std" amount="6.60" cmd="1" />
+<EVENT Dt="2013-05-15" Tm="07:15" shortinfo="W1" description="cartridge low" />
+<BOLUS Dt="2013-05-15" Tm="06:37" type="Std" amount="1.20" cmd="1" />
+<BASAL Dt="2013-05-15" Tm="06:00" cbrf="1.20" profile="1" />
+<BASAL Dt="2013-05-15" Tm="00:00" cbrf="1.10" profile="1" />
+<BOLUS Dt="2013-05-14" Tm="" type="" amount="26.10" remark="Bolus Total"/>
+<BOLUS Dt="2013-05-14" Tm="" type="" amount="46.60" remark="Bolus+Basal Total"/>
+<BOLUS Dt="2013-05-14" Tm="21:13" type="Std" amount="0.80" cmd="1" />
+<BASAL Dt="2013-05-14" Tm="20:00" cbrf="0.90" profile="1" />
+<BOLUS Dt="2013-05-14" Tm="19:50" type="Std" amount="9.00" cmd="1" />
+<BASAL Dt="2013-05-14" Tm="19:00" cbrf="0.80" profile="1" />
+<BASAL Dt="2013-05-14" Tm="18:00" cbrf="0.70" profile="1" />
+<BOLUS Dt="2013-05-14" Tm="17:15" type="Std" amount="1.10" cmd="1" />
+<BOLUS Dt="2013-05-14" Tm="13:10" type="Std" amount="10.80" cmd="1" />
+<BASAL Dt="2013-05-14" Tm="10:00" cbrf="0.60" profile="1" />
+<BASAL Dt="2013-05-14" Tm="09:00" cbrf="0.70" profile="1" />
+<BOLUS Dt="2013-05-14" Tm="08:33" type="Std" amount="4.40" cmd="1" />
+<BASAL Dt="2013-05-14" Tm="08:00" cbrf="0.90" profile="1" />
+<BASAL Dt="2013-05-14" Tm="06:00" cbrf="1.20" profile="1" />
+<BASAL Dt="2013-05-14" Tm="00:00" cbrf="1.10" profile="1" />
+<BOLUS Dt="2013-05-13" Tm="" type="" amount="31.80" remark="Bolus Total"/>
+<BOLUS Dt="2013-05-13" Tm="" type="" amount="52.30" remark="Bolus+Basal Total"/>
+<BOLUS Dt="2013-05-13" Tm="22:18" type="Std" amount="0.60" cmd="1" />
+<BOLUS Dt="2013-05-13" Tm="20:15" type="Std" amount="3.00" cmd="1" />
+<BASAL Dt="2013-05-13" Tm="20:00" cbrf="0.90" profile="1" />
+<BASAL Dt="2013-05-13" Tm="19:00" cbrf="0.80" profile="1" />
+<BOLUS Dt="2013-05-13" Tm="18:39" type="Std" amount="4.50" cmd="1" />
+<BASAL Dt="2013-05-13" Tm="18:00" cbrf="0.70" profile="1" />
+<BOLUS Dt="2013-05-13" Tm="13:05" type="Std" amount="2.00" cmd="1" />
+<BOLUS Dt="2013-05-13" Tm="12:38" type="Scr" amount="6.00" cmd="2" />
+<BOLUS Dt="2013-05-13" Tm="11:03" type="Std" amount="1.40" cmd="1" />
+<BASAL Dt="2013-05-13" Tm="10:00" cbrf="0.60" profile="1" />
+<BASAL Dt="2013-05-13" Tm="09:00" cbrf="0.70" profile="1" />
+<BOLUS Dt="2013-05-13" Tm="08:25" type="Std" amount="3.30" cmd="1" />
+<BASAL Dt="2013-05-13" Tm="08:00" cbrf="0.90" profile="1" />
+<BOLUS Dt="2013-05-13" Tm="07:56" type="Std" amount="11.00" cmd="1" />
+<BASAL Dt="2013-05-13" Tm="06:00" cbrf="1.20" profile="1" />
+<BASAL Dt="2013-05-13" Tm="00:00" cbrf="1.10" profile="1" />
+<BOLUS Dt="2013-05-12" Tm="" type="" amount="34.10" remark="Bolus Total"/>
+<BOLUS Dt="2013-05-12" Tm="" type="" amount="54.30" remark="Bolus+Basal Total"/>
+<BOLUS Dt="2013-05-12" Tm="21:03" type="Std" amount="0.30" cmd="1" />
+<BASAL Dt="2013-05-12" Tm="20:00" cbrf="0.90" profile="1" />
+<BOLUS Dt="2013-05-12" Tm="19:58" type="Std" amount="2.30" cmd="1" />
+<BASAL Dt="2013-05-12" Tm="19:00" cbrf="0.80" profile="1" />
+<BASAL Dt="2013-05-12" Tm="18:00" cbrf="0.70" profile="1" />
+<BOLUS Dt="2013-05-12" Tm="17:24" type="Std" amount="6.20" cmd="1" />
+<BASAL Dt="2013-05-12" Tm="17:22" cbrf="0.60" profile="1" remark="TBR End (cancelled)" />
+<BASAL Dt="2013-05-12" Tm="15:42" cbrf="0.42" profile="1" TBRdec=" 70%" remark="dur 01:40 h" />
+<BOLUS Dt="2013-05-12" Tm="13:38" type="Std" amount="2.00" cmd="1" />
+<BOLUS Dt="2013-05-12" Tm="13:29" type="Std" amount="9.40" cmd="1" />
+<BOLUS Dt="2013-05-12" Tm="10:45" type="Std" amount="13.20" cmd="1" />
+<BASAL Dt="2013-05-12" Tm="10:00" cbrf="0.60" profile="1" />
+<BASAL Dt="2013-05-12" Tm="09:00" cbrf="0.70" profile="1" />
+<BASAL Dt="2013-05-12" Tm="08:00" cbrf="0.90" profile="1" />
+<BOLUS Dt="2013-05-12" Tm="06:07" type="Std" amount="0.70" cmd="1" />
+<BASAL Dt="2013-05-12" Tm="06:00" cbrf="1.20" profile="1" />
+<BASAL Dt="2013-05-12" Tm="00:00" cbrf="1.10" profile="1" />
+<BOLUS Dt="2013-05-11" Tm="" type="" amount="30.90" remark="Bolus Total"/>
+<BOLUS Dt="2013-05-11" Tm="" type="" amount="51.40" remark="Bolus+Basal Total"/>
+<BOLUS Dt="2013-05-11" Tm="22:13" type="Std" amount="1.50" cmd="1" />
+<BOLUS Dt="2013-05-11" Tm="21:42" type="Std" amount="1.50" cmd="1" />
+<BOLUS Dt="2013-05-11" Tm="20:12" type="Std" amount="6.00" cmd="1" />
+<BASAL Dt="2013-05-11" Tm="20:00" cbrf="0.90" profile="1" />
+<BASAL Dt="2013-05-11" Tm="19:00" cbrf="0.80" profile="1" />
+<BASAL Dt="2013-05-11" Tm="18:00" cbrf="0.70" profile="1" />
+<BOLUS Dt="2013-05-11" Tm="17:38" type="Std" amount="0.60" cmd="1" />
+<BOLUS Dt="2013-05-11" Tm="15:40" type="Std" amount="2.00" cmd="1" />
+<BOLUS Dt="2013-05-11" Tm="13:26" type="Std" amount="10.00" cmd="1" />
+<BASAL Dt="2013-05-11" Tm="10:00" cbrf="0.60" profile="1" />
+<BASAL Dt="2013-05-11" Tm="09:00" cbrf="0.70" profile="1" />
+<BOLUS Dt="2013-05-11" Tm="08:00" type="Std" amount="8.80" cmd="1" />
+<BASAL Dt="2013-05-11" Tm="08:00" cbrf="0.90" profile="1" />
+<BOLUS Dt="2013-05-11" Tm="06:25" type="Std" amount="0.50" cmd="1" />
+<BASAL Dt="2013-05-11" Tm="06:00" cbrf="1.20" profile="1" />
+<BASAL Dt="2013-05-11" Tm="00:00" cbrf="1.10" profile="1" />
+<BOLUS Dt="2013-05-10" Tm="" type="" amount="37.50" remark="Bolus Total"/>
+<BOLUS Dt="2013-05-10" Tm="" type="" amount="57.35" remark="Bolus+Basal Total"/>
+<BOLUS Dt="2013-05-10" Tm="23:03" type="Std" amount="3.00" cmd="1" />
+<BOLUS Dt="2013-05-10" Tm="22:50" type="Std" amount="1.80" cmd="1" />
+<BASAL Dt="2013-05-10" Tm="20:00" cbrf="0.90" profile="1" />
+<BASAL Dt="2013-05-10" Tm="19:00" cbrf="0.80" profile="1" />
+<BASAL Dt="2013-05-10" Tm="18:00" cbrf="0.70" profile="1" />
+<BOLUS Dt="2013-05-10" Tm="17:39" type="Std" amount="6.00" cmd="1" />
+<BOLUS Dt="2013-05-10" Tm="16:32" type="Std" amount="5.70" cmd="1" />
+<BASAL Dt="2013-05-10" Tm="15:27" cbrf="0.60" profile="1" remark="TBR End" />
+<BASAL Dt="2013-05-10" Tm="14:27" cbrf="0.00" profile="1" TBRdec="  0%" cmd="2" remark="dur 01:00 h" />
+<BASAL Dt="2013-05-10" Tm="14:27" cbrf="0.60" profile="1" cmd="2" remark="Run" />
+<BASAL Dt="2013-05-10" Tm="14:22" cbrf="0.00" cmd="2" remark="Stop" />
+<BOLUS Dt="2013-05-10" Tm="11:21" type="Std" amount="11.30" cmd="1" />
+<BASAL Dt="2013-05-10" Tm="10:00" cbrf="0.60" profile="1" />
+<BASAL Dt="2013-05-10" Tm="09:00" cbrf="0.70" profile="1" />
+<BOLUS Dt="2013-05-10" Tm="08:48" type="Std" amount="0.10" cmd="1" />
+<BASAL Dt="2013-05-10" Tm="08:00" cbrf="0.90" profile="1" />
+<BOLUS Dt="2013-05-10" Tm="07:46" type="Std" amount="8.80" cmd="1" />
+<BOLUS Dt="2013-05-10" Tm="06:13" type="Std" amount="0.80" cmd="1" />
+<BASAL Dt="2013-05-10" Tm="06:00" cbrf="1.20" profile="1" />
+<BASAL Dt="2013-05-10" Tm="00:00" cbrf="1.10" profile="1" />
+<BOLUS Dt="2013-05-09" Tm="" type="" amount="0.30" remark="Bolus Total"/>
+<BOLUS Dt="2013-05-09" Tm="" type="" amount="0.90" remark="Bolus+Basal Total"/>
+<BOLUS Dt="2013-05-09" Tm="23:22" type="Std" amount="0.30" cmd="1" />
+<BASAL Dt="2013-05-09" Tm="23:20" cbrf="0.90" profile="1" remark="Run" />
+<EVENT Dt="2013-05-09" Tm="23:20" shortinfo="22.90 IU" description="prime infusion set" />
+<EVENT Dt="2013-05-09" Tm="23:16" description="cartridge changed" />
+<BASAL Dt="2013-05-09" Tm="23:16" cbrf="0.00" remark="time / date set" />
+<BOLUS Dt="2009-01-01" Tm="" type="" amount="0.00" remark="Bolus Total"/>
+<BOLUS Dt="2009-01-01" Tm="" type="" amount="0.00" remark="Bolus+Basal Total"/>
+<BASAL Dt="2009-01-01" Tm="00:00" cbrf="0.00" remark="time / date corrected" />
+<EVENT Dt="2009-01-01" Tm="00:00" shortinfo="W1" description="cartridge low" />
+<BASAL Dt="2009-01-01" Tm="00:00" cbrf="0.00" remark="power up (time shift back)" />
+</IPDATA>
+<STATISTIC>
+<ST_TIMERANGE Weeks="4" Dt="2013-05-15"/>
+<ST_USETIME_PERCENT Val="100"/>
+<ST_BASAL_IU Val="20.8"/>
+<ST_BASAL_PERCENT Val="40"/>
+<ST_BOLUSFREQ Val="7.3"/>
+<ST_BOLUS_IU Val="31.3"/>
+<ST_BOLUS_PERCENT Val="60"/>
+</STATISTIC>
+<CHECK CRC="64F8"/>
+</IMPORT>

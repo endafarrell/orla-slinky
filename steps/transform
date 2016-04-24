@@ -10,7 +10,7 @@ from steps import step, run
 import eutils
 
 
-@step(prereqs=["init", "schema", "load.libre"], tags="transform")
+@step(prereqs=["load.libre"], tags="transform")
 def libre(dbname):
     """
     Transforms the libre sources as needed.
@@ -18,7 +18,9 @@ def libre(dbname):
     :return: None
     """
 
-    sql = u"""
+    sqls = [
+        u"""DROP TABLE IF EXISTS transform_libre """,
+        u"""
         CREATE TABLE transform_libre AS (
             SELECT DISTINCT
                 to_timestamp(extract(epoch FROM "Time"::timestamp)) AS created_at,
@@ -26,20 +28,23 @@ def libre(dbname):
                 "Scan Glucose [mmol/L]" AS scan
             FROM load_libre
             WHERE
-                "Historic Glucose [mmol/L]" IS NOT NULL INTEGER
+                "Historic Glucose [mmol/L]" IS NOT NULL
             OR "Scan Glucose [mmol/L]" IS NOT NULL
-        )
-    """
-    eutils.execute_sqls_serially(dbname, [sql])
+        )"""
+    ]
+    eutils.execute_sqls_serially(dbname, sqls)
 
-@step(prereqs=["init", "schema", "load.twitter"], tags="transform")
+
+@step(prereqs=["load.twitter"], tags="transform")
 def twitter(dbname):
     """
     Transforms the twitter sources as needed.
     :param dbname:
     :return: None
     """
-    sql = u"""
+    sqls = [
+        u"""DROP TABLE IF EXISTS transform_twitter""",
+        u"""
         CREATE TABLE transform_twitter AS (
             SELECT DISTINCT
                 CASE isnumeric(created_at)
@@ -48,10 +53,71 @@ def twitter(dbname):
                 END AS  created_at,
                 text
             FROM load_twitter
-            ORDER BY created_at
-        )
+        )"""
+    ]
+    eutils.execute_sqls_serially(dbname, sqls)
+
+
+@step(prereqs=["load.smartpix"], tags="transform")
+def smartpix(dbname):
     """
-    eutils.execute_sqls_serially(dbname, [sql])
+
+    :param dbname:
+    :return: None
+    """
+    sqls = [
+        u"""DROP TABLE IF EXISTS transform_smartpix_event""",
+        u"""DROP TABLE IF EXISTS transform_smartpix_basal""",
+        u"""DROP TABLE IF EXISTS transform_smartpix_bolus""",
+        u"""DROP TABLE IF EXISTS transform_smartpix_device""",
+
+        u"""
+        CREATE TABLE transform_smartpix_event AS (
+            SELECT DISTINCT
+                to_timestamp(extract('epoch' FROM (dt || ' ' || tm)::timestamp )) AS created_at,
+                shortinfo,
+                description
+            FROM load_smartpix_event
+            WHERE dt > '2013-01-01'
+        )""",
+        u"""
+        CREATE TABLE transform_smartpix_basal AS (
+            SELECT DISTINCT
+                to_timestamp(extract('epoch' FROM (dt || ' ' || tm)::timestamp )) AS created_at,
+                cbrf,
+                COALESCE(tbrinc, tbrdec) AS tbr,
+                profile,
+                cmd,
+                remark
+            FROM load_smartpix_basal
+            WHERE dt > '2013-01-01'
+        )""",
+        u"""
+        CREATE TABLE transform_smartpix_bolus AS (
+            SELECT DISTINCT
+                to_timestamp(extract('epoch' FROM (dt || ' ' || tm)::timestamp )) AS created_at,
+                amount,
+                "type" AS "type",
+                cmd,
+                remark
+            FROM load_smartpix_bolus
+            WHERE dt > '2013-01-01'
+        )""",
+        u"""
+        CREATE TABLE transform_smartpix_device AS (
+            SELECT DISTINCT
+                to_timestamp(extract('epoch' FROM (dt || ' ' || tm)::timestamp )) AS created_at,
+                val AS bg,
+                carb,
+                flg,
+                evt,
+                ins1,
+                d
+            FROM load_smartpix_device
+            WHERE dt > '2013-01-01'
+        )"""
+    ]
+    eutils.execute_sqls_serially(dbname, sqls)
 
 
 if __name__ == "__main__":

@@ -98,6 +98,48 @@ def tables(dbname):
                 "sender_id" INTEGER NOT NULL,
                 "sender_screen_name" TEXT NOT NULL,
                 "text" TEXT
+        );""",
+
+        u"""CREATE TABLE load_smartpix_device (
+                _source_file TEXT NOT NULL,
+                val DECIMAL NULL,
+                dt TEXT NOT NULL,
+                tm TEXT NOT NULL,
+                flg TEXT NULL,
+                evt TEXT NULL,
+                ins1 TEXT NULL,
+                carb DECIMAL NULL,
+                d TEXT NULL
+        );""",
+
+        u"""CREATE TABLE load_smartpix_basal (
+                _source_file TEXT NOT NULL,
+                dt TEXT NOT NULL,
+                tm TEXT NOT NULL,
+                cbrf DECIMAL NOT NULL,
+                TBRdec TEXT NULL,
+                TBRinc TEXT NULL,
+                profile TEXT NULL,
+                cmd TEXT NULL,
+                "remark" TEXT NULL
+        );""",
+
+        u"""CREATE TABLE load_smartpix_bolus (
+                _source_file TEXT NOT NULL,
+                dt TEXT NOT NULL,
+                tm TEXT NOT NULL,
+                amount DECIMAL NOT NULL,
+                "type" TEXT NULL,
+                cmd TEXT NULL,
+                remark TEXT NULL
+        );""",
+
+        u"""CREATE TABLE load_smartpix_event (
+                _source_file TEXT NOT NULL,
+                dt TEXT NOT NULL,
+                tm TEXT NOT NULL,
+                shortinfo TEXT NULL,
+                description TEXT NOT NULL
         );"""
     ]
     eutils.execute_sqls_serially(dbname, steps)

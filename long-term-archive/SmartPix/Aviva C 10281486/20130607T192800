@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="ACSPIXMT.xsl" ?>
+
+<!DOCTYPE IMPORT [
+  <!ELEMENT IMPORT (ACSPIX, DEVICE+, RECENTREC, BGDATA, STATISTIC, CHECK)>
+  <!ELEMENT ACSPIX     EMPTY>
+    <!ATTLIST ACSPIX
+      Type     CDATA #REQUIRED
+      SN       CDATA #REQUIRED
+      Ver      CDATA #REQUIRED
+    >
+  <!ELEMENT DEVICE    EMPTY>
+    <!ATTLIST DEVICE
+      Name     CDATA #REQUIRED
+      SN       CDATA #REQUIRED
+      Dt       CDATA #REQUIRED
+      Tm       CDATA #REQUIRED
+      BGUnit   CDATA #REQUIRED
+      TrgLo    CDATA #IMPLIED
+      TrgHi    CDATA #IMPLIED
+      Hypo     CDATA #IMPLIED
+      TmBins   CDATA #IMPLIED
+    >
+  <!ELEMENT RECENTREC    EMPTY>
+    <!ATTLIST RECENTREC
+      Dt       CDATA #REQUIRED
+      Tm       CDATA #REQUIRED
+    >
+  <!ELEMENT BG       (#PCDATA)>
+    <!ATTLIST BG
+      Val      CDATA #REQUIRED
+      Dt       CDATA #IMPLIED
+      Tm       CDATA #IMPLIED
+      Flg      CDATA #IMPLIED
+      Ctrl     CDATA #IMPLIED
+      Carb     CDATA #IMPLIED
+      Ins1     CDATA #IMPLIED
+      Ins2     CDATA #IMPLIED
+      Ins3     CDATA #IMPLIED
+      Evt      CDATA #IMPLIED
+      D        CDATA #IMPLIED
+    >
+  <!ELEMENT BGDATA   (BG*)>
+
+  <!ELEMENT ST_TIMERANGE (#PCDATA)>
+    <!ATTLIST ST_TIMERANGE
+      Weeks    CDATA #REQUIRED
+      Dt       CDATA #REQUIRED
+    >
+
+  <!ELEMENT ST_EVALRESULTS (#PCDATA)>
+    <!ATTLIST ST_EVALRESULTS
+      Val      CDATA #REQUIRED
+    >
+
+  <!ELEMENT ST_TSTFREQ1 (#PCDATA)>
+    <!ATTLIST ST_TSTFREQ1
+      Val      CDATA #REQUIRED
+    >
+
+  <!ELEMENT ST_TSTFREQ2 (#PCDATA)>
+    <!ATTLIST ST_TSTFREQ2
+      Val      CDATA #REQUIRED
+    >
+
+  <!ELEMENT ST_MBG (#PCDATA)>
+    <!ATTLIST ST_MBG
+      Val      CDATA #REQUIRED
+    >
+
+  <!ELEMENT ST_SD (#PCDATA)>
+    <!ATTLIST ST_SD
+      Val      CDATA #REQUIRED
+    >
+
+  <!ELEMENT ST_HBGI (#PCDATA)>
+    <!ATTLIST ST_HBGI
+      Val      CDATA #REQUIRED
+    >
+
+  <!ELEMENT ST_LBGI (#PCDATA)>
+    <!ATTLIST ST_LBGI
+      Val      CDATA #REQUIRED
+    >
+
+  <!ELEMENT ST_ADRR (#PCDATA)>
+    <!ATTLIST ST_ADRR
+      Val      CDATA #REQUIRED
+    >
+
+  <!ELEMENT STATISTIC (ST_TIMERANGE, ST_EVALRESULTS, ST_TSTFREQ1, ST_TSTFREQ2, ST_MBG, ST_SD, ST_HBGI, ST_LBGI, (ST_ADRR)*)>
+
+  <!ELEMENT CHECK    EMPTY>
+    <!ATTLIST CHECK
+      CRC      CDATA #REQUIRED
+    >
+]>
+
+<IMPORT>
+<ACSPIX Type="2106" SN="UI00539876" Ver="3.01.03"/>
+<DEVICE  Name="Aviva C" SN="10281486" Dt="2013-06-07" Tm="19:28" BGUnit="mmol/L"/>
+<RECENTREC Dt="2013-06-07" Tm="19:22"/>
+<BGDATA>
+<BG Val="---" Dt="2013-06-07" Tm="19:22" Carb="10" D="1"/>
+<BG Val="12.5" Dt="2013-06-07" Tm="17:47" Flg="M3" D="1"/>
+<BG Val="15.6" Dt="2013-06-07" Tm="16:08" Flg="M3" D="1"/>
+<BG Val="14.3" Dt="2013-06-07" Tm="13:00" Flg="M1" Carb="50" D="1"/>
+<BG Val="14.7" Dt="2013-06-07" Tm="12:23" D="1"/>
+<BG Val="14.8" Dt="2013-06-07" Tm="11:11" D="1"/>
+<BG Val="13.9" Dt="2013-06-07" Tm="10:21" D="1"/>
+<BG Val="11.6" Dt="2013-06-07" Tm="09:36" D="1"/>
+<BG Val="11.2" Dt="2013-06-07" Tm="09:10" D="1"/>
+<BG Val="11.3" Dt="2013-06-07" Tm="08:33" D="1"/>
+<BG Val="9.5" Dt="2013-06-07" Tm="07:22" Evt="74" D="1"/>
+<BG Val="8.2" Dt="2013-06-07" Tm="03:50" D="1"/>
+<BG Val="6.7" Dt="2013-06-07" Tm="01:14" D="1"/>
+<BG Val="10.5" Dt="2013-06-06" Tm="22:41" Evt="4" D="1"/>
+<BG Val="9.4" Dt="2013-06-06" Tm="20:58" Flg="M1" Carb="20" D="1"/>
+<BG Val="5.3" Dt="2013-06-06" Tm="13:15" Flg="M1" Carb="50" D="1"/>
+<BG Val="12.3" Dt="2013-06-06" Tm="10:43" Flg="M3" D="1"/>
+<BG Val="11.7" Dt="2013-06-06" Tm="08:06" Flg="M1" Carb="50" D="1"/>
+<BG Val="8.5" Dt="2013-06-06" Tm="06:42" Evt="74" D="1"/>
+<BG Val="14.8" Dt="2013-06-05" Tm="22:02" Flg="M3" D="1"/>
+<BG Val="---" Dt="2013-06-05" Tm="20:58" Carb="15" D="1"/>
+<BG Val="---" Dt="2013-06-05" Tm="20:02" Carb="25" D="1"/>
+<BG Val="14.5" Dt="2013-06-05" Tm="19:54" D="1"/>
+<BG Val="15.8" Dt="2013-06-05" Tm="18:08" Evt="74" D="1"/>
+<BG Val="---" Dt="2013-06-05" Tm="13:44" Carb="60" D="1"/>
+<BG Val="11.1" Dt="2013-06-05" Tm="10:59" Flg="M3" D="1"/>
+<BG Val="---" Dt="2013-06-05" Tm="09:27" Carb="15" D="1"/>
+<BG Val="---" Dt="2013-06-05" Tm="09:06" Carb="40" D="1"/>
+<BG Val="10.2" Dt="2013-06-05" Tm="07:50" Evt="74" D="1"/>
+<BG Val="8.8" Dt="2013-06-04" Tm="22:33" Flg="M3" D="1"/>
+<BG Val="---" Dt="2013-06-04" Tm="20:21" Carb="20" D="1"/>
+<BG Val="---" Dt="2013-06-04" Tm="19:54" Carb="15" D="1"/>
+<BG Val="16.3" Dt="2013-06-04" Tm="17:54" Flg="M3" D="1"/>
+<BG Val="7.8" Dt="2013-06-04" Tm="13:08" Flg="M1" Carb="65" D="1"/>
+<BG Val="10.1" Dt="2013-06-04" Tm="08:58" Flg="M1" Carb="50" D="1"/>
+<BG Val="8.4" Dt="2013-06-04" Tm="07:51" Evt="74" D="1"/>
+<BG Val="6.4" Dt="2013-06-03" Tm="22:34" Flg="M3" D="1"/>
+<BG Val="5.7" Dt="2013-06-03" Tm="20:38" Flg="M1" Carb="40" D="1"/>
+<BG Val="---" Dt="2013-06-03" Tm="14:45" Carb="60" D="1"/>
+<BG Val="---" Dt="2013-06-03" Tm="13:00" Carb="60" D="1"/>
+<BG Val="19.0" Dt="2013-06-03" Tm="12:02" Evt="74" D="1"/>
+<BG Val="21.9" Dt="2013-06-03" Tm="10:39" Flg="M3" D="1"/>
+<BG Val="---" Dt="2013-06-03" Tm="10:02" Carb="25" D="1"/>
+<BG Val="14.8" Dt="2013-06-03" Tm="07:53" Evt="74" D="1"/>
+<BG Val="---" Dt="2013-06-02" Tm="23:15" Carb="26" D="1"/>
+<BG Val="13.8" Dt="2013-06-02" Tm="22:45" Carb="30" Evt="74" D="1"/>
+<BG Val="---" Dt="2013-06-02" Tm="15:00" Carb="50" D="1"/>
+<BG Val="---" Dt="2013-06-02" Tm="11:49" Carb="30" D="1"/>
+<BG Val="---" Dt="2013-06-02" Tm="10:16" Carb="15" D="1"/>
+<BG Val="---" Dt="2013-06-02" Tm="09:45" Carb="50" D="1"/>
+<BG Val="18.1" Dt="2013-06-02" Tm="09:38" Evt="74" D="1"/>
+<BG Val="18.6" Dt="2013-06-01" Tm="20:55" Flg="M3" D="1"/>
+<BG Val="19.3" Dt="2013-06-01" Tm="15:11" Carb="10" Evt="74" D="1"/>
+<BG Val="5.9" Dt="2013-06-01" Tm="12:05" Flg="M1" Carb="50" D="1"/>
+<BG Val="---" Dt="2013-06-01" Tm="01:20" Carb="90" D="1"/>
+<BG Val="12.9" Dt="2013-05-31" Tm="23:55" Flg="M3" D="1"/>
+<BG Val="17.0" Dt="2013-05-31" Tm="21:12" Flg="M1" Carb="60" D="1"/>
+<BG Val="15.3" Dt="2013-05-31" Tm="19:27" Flg="M3" D="1"/>
+<BG Val="17.8" Dt="2013-05-31" Tm="00:47" Flg="M3" Carb="5" D="1"/>
+<BG Val="---" Dt="2013-05-31" Tm="00:21" Carb="25" D="1"/>
+<BG Val="7.9" Dt="2013-05-30" Tm="22:40" Flg="M1" Carb="45" D="1"/>
+<BG Val="16.9" Dt="2013-05-30" Tm="15:46" Flg="M1" Carb="20" D="1"/>
+<BG Val="3.2" Dt="2013-05-30" Tm="13:45" D="1"/>
+<BG Val="13.5" Dt="2013-05-30" Tm="11:04" Flg="M3" D="1"/>
+<BG Val="---" Dt="2013-05-30" Tm="10:04" Carb="60" D="1"/>
+<BG Val="15.3" Dt="2013-05-29" Tm="21:29" Flg="M1" Carb="20" D="1"/>
+<BG Val="7.9" Dt="2013-05-29" Tm="19:15" D="1"/>
+<BG Val="4.2" Dt="2013-05-29" Tm="16:38" D="1"/>
+<BG Val="9.7" Dt="2013-05-29" Tm="15:21" Flg="M3" D="1"/>
+<BG Val="---" Dt="2013-05-29" Tm="13:49" Carb="45" D="1"/>
+<BG Val="13.2" Dt="2013-05-29" Tm="10:16" Flg="M3" Carb="20" D="1"/>
+<BG Val="10.2" Dt="2013-05-29" Tm="08:46" Flg="M1" Carb="40" D="1"/>
+<BG Val="14.0" Dt="2013-05-28" Tm="17:35" Flg="M3" D="1"/>
+<BG Val="9.0" Dt="2013-05-28" Tm="14:03" Flg="M1" Carb="50" D="1"/>
+<BG Val="---" Dt="2013-05-28" Tm="07:24" Carb="45" D="1"/>
+<BG Val="11.7" Dt="2013-05-28" Tm="06:01" Evt="74" D="1"/>
+<BG Val="9.3" Dt="2013-05-27" Tm="23:59" Evt="4" D="1"/>
+<BG Val="4.2" Dt="2013-05-27" Tm="22:23" D="1"/>
+<BG Val="---" Dt="2013-05-27" Tm="21:01" Carb="50" D="1"/>
+<BG Val="17.9" Dt="2013-05-27" Tm="19:21" Carb="10" Evt="74" D="1"/>
+<BG Val="14.4" Dt="2013-05-27" Tm="15:11" Flg="M3" D="1"/>
+<BG Val="---" Dt="2013-05-27" Tm="13:03" Carb="60" D="1"/>
+<BG Val="12.3" Dt="2013-05-27" Tm="08:27" Flg="M1" Carb="40" D="1"/>
+<BG Val="17.0" Dt="2013-05-26" Tm="23:07" Evt="4" D="1"/>
+<BG Val="---" Dt="2013-05-26" Tm="20:38" Carb="60" D="1"/>
+<BG Val="---" Dt="2013-05-26" Tm="16:22" Carb="30" D="1"/>
+<BG Val="6.0" Dt="2013-05-26" Tm="15:39" Evt="74" D="1"/>
+<BG Val="---" Dt="2013-05-26" Tm="13:31" Carb="20" D="1"/>
+<BG Val="2.5" Dt="2013-05-26" Tm="12:16" D="1"/>
+<BG Val="8.9" Dt="2013-05-26" Tm="11:22" D="1"/>
+<BG Val="9.9" Dt="2013-05-26" Tm="10:12" Flg="M1" Carb="60" D="1"/>
+<BG Val="14.5" Dt="2013-05-26" Tm="07:58" Evt="74" D="1"/>
+<BG Val="7.2" Dt="2013-05-25" Tm="19:52" Flg="M1" Carb="20" D="1"/>
+<BG Val="4.8" Dt="2013-05-25" Tm="15:35" D="1"/>
+<BG Val="---" Dt="2013-05-25" Tm="12:59" Carb="65" D="1"/>
+<BG Val="5.5" Dt="2013-05-25" Tm="11:25" D="1"/>
+<BG Val="14.3" Dt="2013-05-25" Tm="09:14" Flg="M3" D="1"/>
+<BG Val="---" Dt="2013-05-25" Tm="08:00" Carb="50" D="1"/>
+<BG Val="10.2" Dt="2013-05-25" Tm="06:27" Evt="74" D="1"/>
+<BG Val="8.9" Dt="2013-05-24" Tm="23:28" Evt="4" D="1"/>
+<BG Val="---" Dt="2013-05-24" Tm="18:09" Carb="40" D="1"/>
+<BG Val="19.3" Dt="2013-05-24" Tm="17:41" Evt="74" D="1"/>
+<BG Val="---" Dt="2013-05-24" Tm="09:09" Carb="40" D="1"/>
+<BG Val="9.9" Dt="2013-05-24" Tm="06:40" Evt="74" D="1"/>
+<BG Val="7.7" Dt="2013-05-23" Tm="21:45" Flg="M1" Carb="20" D="1"/>
+<BG Val="11.4" Dt="2013-05-23" Tm="17:33" Evt="74" D="1"/>
+<BG Val="---" Dt="2013-05-23" Tm="13:58" Carb="50" D="1"/>
+<BG Val="13.8" Dt="2013-05-23" Tm="13:12" Evt="74" D="1"/>
+<BG Val="13.7" Dt="2013-05-23" Tm="10:52" Flg="M3" D="1"/>
+<BG Val="---" Dt="2013-05-23" Tm="09:18" Carb="20" D="1"/>
+<BG Val="6.2" Dt="2013-05-23" Tm="01:16" D="1"/>
+<BG Val="---" Dt="2013-05-22" Tm="22:13" Carb="30" D="1"/>
+<BG Val="---" Dt="2013-05-22" Tm="20:07" Carb="20" D="1"/>
+<BG Val="---" Dt="2013-05-22" Tm="13:48" Carb="60" D="1"/>
+<BG Val="7.3" Dt="2013-05-22" Tm="08:37" Flg="M1" Carb="30" D="1"/>
+<BG Val="5.8" Dt="2013-05-22" Tm="07:46" Evt="74" D="1"/>
+<BG Val="5.7" Dt="2013-05-21" Tm="23:09" Flg="M3" Carb="10" D="1"/>
+<BG Val="4.7" Dt="2013-05-21" Tm="18:32" Flg="M1" Carb="25" D="1"/>
+<BG Val="9.5" Dt="2013-05-21" Tm="16:13" Flg="M3" D="1"/>
+<BG Val="---" Dt="2013-05-21" Tm="14:01" Carb="40" D="1"/>
+<BG Val="8.4" Dt="2013-05-21" Tm="08:56" Flg="M1" Carb="50" D="1"/>
+<BG Val="6.4" Dt="2013-05-21" Tm="07:41" D="1"/>
+<BG Val="12.8" Dt="2013-05-20" Tm="21:36" Flg="M3" D="1"/>
+<BG Val="2.9" Dt="2013-05-20" Tm="19:41" Flg="M3" Carb="50" D="1"/>
+<BG Val="2.7" Dt="2013-05-20" Tm="17:01" Flg="M3" Carb="50" Evt="75" D="1"/>
+<BG Val="9.0" Dt="2013-05-20" Tm="16:19" D="1"/>
+<BG Val="12.9" Dt="2013-05-20" Tm="15:19" Flg="M3" Carb="15" D="1"/>
+<BG Val="13.8" Dt="2013-05-20" Tm="12:33" Flg="M1" Carb="50" D="1"/>
+<BG Val="---" Dt="2013-05-20" Tm="11:44" Carb="15" D="1"/>
+<BG Val="7.0" Dt="2013-05-20" Tm="11:07" Evt="74" D="1"/>
+<BG Val="10.5" Dt="2013-05-19" Tm="23:27" D="1"/>
+<BG Val="8.0" Dt="2013-05-19" Tm="21:57" Flg="M3" Carb="15" D="1"/>
+<BG Val="12.8" Dt="2013-05-19" Tm="21:01" Flg="M3" D="1"/>
+<BG Val="---" Dt="2013-05-19" Tm="19:56" Carb="30" D="1"/>
+<BG Val="2.6" Dt="2013-05-19" Tm="19:05" Carb="50" Evt="74" D="1"/>
+<BG Val="11.0" Dt="2013-05-19" Tm="17:05" Evt="74" D="1"/>
+<BG Val="10.0" Dt="2013-05-19" Tm="16:25" D="1"/>
+<BG Val="15.8" Dt="2013-05-19" Tm="15:39" Flg="M3" D="1"/>
+<BG Val="14.1" Dt="2013-05-19" Tm="14:57" Flg="M1" Carb="25" D="1"/>
+<BG Val="12.3" Dt="2013-05-19" Tm="14:30" Evt="74" D="1"/>
+<BG Val="19.4" Dt="2013-05-19" Tm="13:27" Flg="M3" D="1"/>
+<BG Val="---" Dt="2013-05-19" Tm="12:08" Carb="20" D="1"/>
+<BG Val="---" Dt="2013-05-19" Tm="11:39" Carb="15" D="1"/>
+<BG Val="12.5" Dt="2013-05-19" Tm="11:09" Flg="M1" Carb="2" D="1"/>
+<BG Val="15.6" Dt="2013-05-19" Tm="01:03" D="1"/>
+<BG Val="21.6" Dt="2013-05-18" Tm="23:58" Evt="4" D="1"/>
+<BG Val="13.2" Dt="2013-05-18" Tm="21:43" Flg="M3" Carb="10" D="1"/>
+<BG Val="23.0" Dt="2013-05-18" Tm="19:42" Flg="M1" Carb="40" D="1"/>
+<BG Val="---" Dt="2013-05-18" Tm="17:13" Carb="10" D="1"/>
+<BG Val="15.4" Dt="2013-05-18" Tm="16:42" Flg="M3" D="1"/>
+<BG Val="3.2" Dt="2013-05-18" Tm="14:46" Flg="M3" Carb="30" D="1"/>
+<BG Val="---" Dt="2013-05-18" Tm="13:58" Carb="40" D="1"/>
+<BG Val="3.8" Dt="2013-05-18" Tm="13:42" D="1"/>
+<BG Val="7.5" Dt="2013-05-18" Tm="10:53" Flg="M1" Carb="40" D="1"/>
+<BG Val="6.7" Dt="2013-05-17" Tm="22:54" Evt="4" D="1"/>
+<BG Val="---" Dt="2013-05-17" Tm="19:18" Carb="25" D="1"/>
+<BG Val="7.8" Dt="2013-05-17" Tm="18:13" Carb="15" Evt="74" D="1"/>
+<BG Val="10.4" Dt="2013-05-17" Tm="13:07" Flg="M1" Carb="60" D="1"/>
+<BG Val="13.0" Dt="2013-05-17" Tm="11:00" Flg="M3" D="1"/>
+<BG Val="19.3" Dt="2013-05-17" Tm="08:53" Flg="M3" Carb="10" D="1"/>
+<BG Val="---" Dt="2013-05-17" Tm="07:30" Carb="46" D="1"/>
+<BG Val="3.2" Dt="2013-05-17" Tm="06:06" D="1"/>
+<BG Val="17.5" Dt="2013-05-16" Tm="22:30" Flg="M3" Carb="10" D="1"/>
+<BG Val="6.2" Dt="2013-05-16" Tm="20:06" Flg="M1" Carb="50" D="1"/>
+<BG Val="3.6" Dt="2013-05-16" Tm="17:36" Evt="74" D="1"/>
+<BG Val="5.7" Dt="2013-05-16" Tm="16:37" Flg="M3" D="1"/>
+<BG Val="8.8" Dt="2013-05-16" Tm="14:04" Flg="M1" Carb="25" D="1"/>
+<BG Val="14.8" Dt="2013-05-16" Tm="08:52" Flg="M1" Carb="20" D="1"/>
+<BG Val="15.9" Dt="2013-05-16" Tm="07:25" D="1"/>
+<BG Val="10.4" Dt="2013-05-15" Tm="23:09" Evt="4" D="1"/>
+<BG Val="8.2" Dt="2013-05-15" Tm="21:14" Flg="M1" Carb="30" D="1"/>
+<BG Val="13.2" Dt="2013-05-15" Tm="17:55" Flg="M3" D="1"/>
+<BG Val="11.2" Dt="2013-05-15" Tm="13:23" Flg="M1" Carb="50" D="1"/>
+</BGDATA>
+<STATISTIC>
+<ST_TIMERANGE Weeks="4" Dt="2013-06-07"/>
+<ST_EVALRESULTS Val="129"/>
+<ST_TSTFREQ1 Val="4.6"/>
+<ST_TSTFREQ2 Val="5.4"/>
+<ST_MBG Val="11.1"/>
+<ST_SD Val=" 4.7"/>
+<ST_HBGI Val="14.9"/>
+<ST_LBGI Val="1.4"/>
+</STATISTIC>
+<CHECK CRC="15EC"/>
+</IMPORT>

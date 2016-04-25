@@ -23,7 +23,8 @@ def libre(dbname):
         u"""
         CREATE TABLE transform_libre AS (
             SELECT DISTINCT
-                to_timestamp(extract(epoch FROM "Time"::timestamp)) AS created_at,
+                to_timestamp(extract(epoch FROM "Time"::timestamp
+                                                at time zone 'Europe/Berlin')) AS created_at,
                 "Historic Glucose [mmol/L]" AS cgm,
                 "Scan Glucose [mmol/L]" AS scan
             FROM load_libre
@@ -74,7 +75,8 @@ def smartpix(dbname):
         u"""
         CREATE TABLE transform_smartpix_event AS (
             SELECT DISTINCT
-                to_timestamp(extract('epoch' FROM (dt || ' ' || tm)::timestamp )) AS created_at,
+                to_timestamp(extract('epoch' FROM (dt || ' ' || tm)::timestamp without time zone
+                                                   at time zone 'Europe/Berlin')) AS created_at,
                 shortinfo,
                 description
             FROM load_smartpix_event
@@ -83,7 +85,8 @@ def smartpix(dbname):
         u"""
         CREATE TABLE transform_smartpix_basal AS (
             SELECT DISTINCT
-                to_timestamp(extract('epoch' FROM (dt || ' ' || tm)::timestamp )) AS created_at,
+                to_timestamp(extract('epoch' FROM (dt || ' ' || tm)::timestamp without time zone
+                                                   at time zone 'Europe/Berlin')) AS created_at,
                 cbrf,
                 COALESCE(tbrinc, tbrdec) AS tbr,
                 profile,
@@ -95,7 +98,8 @@ def smartpix(dbname):
         u"""
         CREATE TABLE transform_smartpix_bolus AS (
             SELECT DISTINCT
-                to_timestamp(extract('epoch' FROM (dt || ' ' || tm)::timestamp )) AS created_at,
+                to_timestamp(extract('epoch' FROM (dt || ' ' || tm)::timestamp without time zone
+                                                   at time zone 'Europe/Berlin')) AS created_at,
                 amount,
                 "type" AS "type",
                 cmd,
@@ -106,7 +110,8 @@ def smartpix(dbname):
         u"""
         CREATE TABLE transform_smartpix_device AS (
             SELECT DISTINCT
-                to_timestamp(extract('epoch' FROM (dt || ' ' || tm)::timestamp )) AS created_at,
+                to_timestamp(extract('epoch' FROM (dt || ' ' || tm)::timestamp without time zone
+                                                   at time zone 'Europe/Berlin')) AS created_at,
                 val AS bg,
                 carb,
                 flg,
@@ -119,6 +124,30 @@ def smartpix(dbname):
     ]
     eutils.execute_sqls_serially(dbname, sqls)
 
+
+@step(prereqs=["load.runkeeper"], tags="transform")
+def runkeeper(dbname):
+    """
+    Transforms the twitter sources as needed.
+    :param dbname:
+    :return: None
+    """
+    sqls = [
+        u"""DROP TABLE IF EXISTS transform_runkeeper""",
+        u"""
+        CREATE TABLE transform_runkeeper AS (
+            SELECT DISTINCT
+                uri,
+                to_timestamp(created_at) AS created_at,
+                "type" as "type",
+                total_distance,
+                duration
+            FROM load_runkeeper
+            WHERE total_distance > 1
+            AND "type" IN ('Running', 'Cycling')
+        )"""
+    ]
+    eutils.execute_sqls_serially(dbname, sqls)
 
 if __name__ == "__main__":
     run(locals())

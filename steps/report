@@ -1,0 +1,121 @@
+#!/usr/bin/env python
+import codecs
+import sys
+import pandas as pd
+import sys
+if not any([x for x in sys.path if "orla-lib" in x]):
+    sys.path.append("/".join(sys.path[0].split("/")[:-1] + ["/orla-lib/"]))
+
+from steps import step, run
+import simplejson as json
+import eutils
+
+
+@step(prereqs=["transform"], tags="report")
+def export(dbname):
+    sqls = [
+        ("libre",
+         u"""SELECT
+                 EXTRACT(WEEK FROM created_at)::INTEGER AS week,
+                 EXTRACT(DOW FROM created_at)::INTEGER AS dow,
+                 (EXTRACT(EPOCH FROM created_at) * 1000)::BIGINT AS msse,
+                 cgm,
+                 scan
+             FROM
+                 transform_libre
+             WHERE {time_limit_clause}
+             ORDER BY created_at;"""),
+        ("runkeeper",
+         u"""SELECT
+                  EXTRACT(WEEK FROM created_at)::INTEGER AS week,
+                  EXTRACT(DOW FROM created_at)::INTEGER AS dow,
+                  (EXTRACT(EPOCH FROM created_at) * 1000)::BIGINT AS msse,
+                  uri,
+                  "type",
+                  duration,
+                  total_distance
+              FROM
+                  transform_runkeeper
+              WHERE {time_limit_clause}
+              ORDER BY created_at;"""),
+        ("smartpix_basal",
+         u"""SELECT
+                   EXTRACT(WEEK FROM created_at)::INTEGER AS week,
+                   EXTRACT(DOW FROM created_at)::INTEGER AS dow,
+                   (EXTRACT(EPOCH FROM created_at) * 1000)::BIGINT AS msse,
+                   cbrf,
+                   tbr,
+                   profile,
+                   cmd,
+                   remark
+               FROM
+                   transform_smartpix_basal
+               WHERE {time_limit_clause}
+               ORDER BY created_at;"""),
+        ("smartpix_bolus",
+         u"""SELECT
+                   EXTRACT(WEEK FROM created_at)::INTEGER AS week,
+                   EXTRACT(DOW FROM created_at)::INTEGER AS dow,
+                   (EXTRACT(EPOCH FROM created_at) * 1000)::BIGINT AS msse,
+                   amount,
+                   "type",
+                   cmd,
+                   remark
+               FROM
+                   transform_smartpix_bolus
+               WHERE {time_limit_clause}
+               ORDER BY created_at;"""),
+        ("smartpix_device",
+         u"""SELECT
+                   EXTRACT(WEEK FROM created_at)::INTEGER AS week,
+                   EXTRACT(DOW FROM created_at)::INTEGER AS dow,
+                   (EXTRACT(EPOCH FROM created_at) * 1000)::BIGINT AS msse,
+                   bg,
+                   carb,
+                   flg,
+                   evt,
+                   ins1,
+                   d
+               FROM
+                   transform_smartpix_device
+               WHERE {time_limit_clause}
+               ORDER BY created_at DESC;"""),
+        ("smartpix_event",
+         u"""SELECT
+                 EXTRACT(WEEK FROM created_at)::INTEGER AS week,
+                 EXTRACT(DOW FROM created_at)::INTEGER AS dow,
+                 (EXTRACT(EPOCH FROM created_at) * 1000)::BIGINT AS msse,
+                 shortinfo,
+                 description
+             FROM
+                 transform_smartpix_event
+             WHERE {time_limit_clause}
+             ORDER BY created_at;"""),
+        ("twitter",
+         u"""SELECT
+                 EXTRACT(WEEK FROM created_at)::INTEGER AS week,
+                 EXTRACT(DOW FROM created_at)::INTEGER AS dow,
+                 (EXTRACT(EPOCH FROM created_at) * 1000)::BIGINT AS msse,
+                 text
+             FROM
+                 transform_twitter
+             WHERE {time_limit_clause}
+             ORDER BY created_at;""")
+    ]
+    export_data = {}
+    for (data, sql) in sqls:
+        if data in ("libre"):
+            continue
+        export_data[data] = eutils.fetch_db(dbname,
+                                            sql.format(time_limit_clause="""
+                                                created_at > '2016-03-28 00:00:00+02' and
+                                                created_at < '2016-04-25 00:00:00+02'"""),
+                                            use_dict_cursor=True)
+    print
+    print eutils.z64(json.dumps(export_data), already_dejsoned=True)
+    print
+    raise NotImplementedError()
+
+
+if __name__ == "__main__":
+    run(locals())

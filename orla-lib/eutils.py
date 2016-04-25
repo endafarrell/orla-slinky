@@ -18,6 +18,7 @@ import zlib
 import base64
 
 import psycopg2
+
 import pandas as pd
 from pandas.core.groupby import DataFrameGroupBy
 
@@ -180,6 +181,58 @@ def def_query_method(dbname, query, cur=None):
         raise Exception('This query is not working: \n %s' % (query[0] if type(query) is tuple else query))
     db.commit()
     db.close()
+
+
+def fetch_db(dbname, query_string, return_cursor=False, use_dict_cursor=False, db_conn=None):
+    """
+    Returns the results of running the `query_string` against the database. If `return_cursor` is `True`
+        then the cursor is returned - after execute but before fetching - and any caller who sets
+        `return_cursor=True` is expected to later:
+        1/ close the cursor
+
+    Optionally, you can ask for a dict cursor which returns a dictionary instead of a tuple so that you can
+    specify column names.
+    :param query_string:
+    :param return_cursor:
+    :param use_dict_cursor:
+    :param db_conn:
+    :return:
+    """
+    if u"{}" in query_string:
+        raise ValueError(u"{{}} found in query string!\n{}".format(query_string))
+
+    try:
+        # Sometimes we pass in a db_conn - when the db_conn is passed in, use it, otherwise
+        # create a new one
+        if not db_conn:
+            db_conn = connect(dbname)
+
+        if use_dict_cursor:
+            # conn.cursor will return a cursor object, you can use this query to perform queries
+            # note that in this example we pass a cursor_factory argument that will
+            # dictionary cursor so COLUMNS will be returned as a dictionary so we
+            # can access columns by their name instead of index.
+            import psycopg2.extras
+            cur = db_conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        else:
+            cur = db_conn.cursor()
+        cur.execute(query_string)
+        if return_cursor:
+            # Any caller who sets return_cursor=True is expected to later:
+            # 1/ close the cursor
+            # 2/ call `self._fetch_db_logging(my_debug_index, query_purpose,
+            # result_memory_size, start, this_stack_depth)`
+            return cur, (debug_idx, query_purpose, None, start, stack_depth)
+
+        res = cur.fetchall()
+        cur.close()
+        return res
+    except Exception, e:
+        # Yes - catching everything - but look - re-raising later. This is useful in a multi-processing
+        # world where the stacktrace is not otherwise seen.
+        traceback.print_exc()
+        print u"""The above exception "{}" was raised from the following SQL:\n{}""".format(e.message, query_string)
+        raise e
 
 
 def syntax_checker(queries, dbname):
@@ -468,6 +521,15 @@ def save_gz64_report(reports_path=None, year_ending=None, country_code=None, nam
         f.write('\n# What follows is a readable copy of the data\n')
         pprint.pprint(list_of_lists, stream=f)
     return _filename
+
+
+def z64(data, already_dejsoned=False):
+    if already_dejsoned:
+        return base64.b64encode(zlib.compress(data, 9))
+    else:
+        return base64.b64encode(zlib.compress(json.dumps(data), 9))
+
+
 
 def get_group_stats(group):
     # It's REALLY important that these results are wrapped in round/int/(or float/str though these are not yet

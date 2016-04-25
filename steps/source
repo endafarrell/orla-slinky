@@ -226,7 +226,7 @@ def smartpix(data_smartpix):
 @step(prereqs=["init"], tags="source")
 def runkeeper(data_runkeeper, config_runkeeper):
     """
-    
+
     :param data_runkeeper:
     :param config_runkeeper:
     :return:

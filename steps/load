@@ -8,24 +8,54 @@ from steps import step, run
 import liblibre
 import libtwitter
 import libsmartpix
-
+import librunkeeper
 
 @step(prereqs=["init", "schema"], tags="load")
 def libre(dbname, data_libre):
+    """
+
+    :param dbname:
+    :param data_libre:
+    :return:
+    """
     for fn in sorted([f for f in os.listdir(data_libre) if f.endswith(".txt")]):
         liblibre.load(os.path.join(data_libre, fn), dbname)
 
 @step(prereqs=["init", "schema", "source.twitter"], tags="load")
 def twitter(dbname, data_twitter):
+    """
+
+    :param dbname:
+    :param data_twitter:
+    :return:
+    """
     for fn in sorted([f for f in os.listdir(data_twitter) if f.startswith("twitter.") and f.endswith(".jsons")]):
         libtwitter.load(os.path.join(data_twitter, fn), dbname)
 
 
 @step(prereqs=["source.smartpix"], tags="load")
 def smartpix(dbname, data_smartpix):
+    """
+
+    :param dbname:
+    :param data_smartpix:
+    :return:
+    """
     for dirpath, subdirs, files in os.walk(data_smartpix):
         for f in files:
             libsmartpix.load(os.path.join(dirpath, f), dbname)
+
+
+@step(prereqs=["source.runkeeper"], tags="load")
+def runkeeper(dbname, data_runkeeper):
+    """
+
+    :param dbname:
+    :param data_runkeeper:
+    :return:
+    """
+    for fn in sorted([f for f in os.listdir(data_runkeeper) if f.startswith("runkeeper.") and f.endswith(".jsons")]):
+        librunkeeper.load(os.path.join(data_runkeeper, fn), dbname)
 
 
 if __name__ == "__main__":

@@ -140,6 +140,15 @@ def tables(dbname):
                 tm TEXT NOT NULL,
                 shortinfo TEXT NULL,
                 description TEXT NOT NULL
+        );""",
+
+        u"""CREATE TABLE load_runkeeper (
+                _source_file TEXT NOT NULL,
+                uri TEXT NOT NULL,
+                created_at INTEGER NOT NULL,
+                duration INTEGER NOT NULL,
+                "type" TEXT NOT NULL,
+                total_distance DECIMAL
         );"""
     ]
     eutils.execute_sqls_serially(dbname, steps)

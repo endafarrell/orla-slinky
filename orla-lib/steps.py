@@ -37,19 +37,19 @@ def step(tags=None, prereqs=None, undo=None, tests=None):
 
 def reflect_spec(fn):
     """look at one value to see if it is a callable with stepinfo (a "step")"""
-    if hasattr(fn, 'stepinfo'):
-        fnspec = fn.stepinfo
-        args, varargs, keywords, defaults = inspect.getargspec(fn)
-        assert not varargs
-        assert not keywords
-        fnspec['args'] = list(args)
-        if defaults:
-            fnspec['defaults'] = {}
-            for default_i, default in enumerate(defaults or []):
-                i = len(args) - len(defaults) + default_i
-                fnspec['defaults'][args[i]] = default
-        return fnspec
-    return None
+    if not hasattr(fn, 'stepinfo'):
+        return None
+    fnspec = fn.stepinfo
+    args, varargs, keywords, defaults = inspect.getargspec(fn)
+    assert not varargs
+    assert not keywords
+    fnspec['args'] = list(args)
+    if defaults:
+        fnspec['defaults'] = {}
+        for default_i, default in enumerate(defaults or []):
+            i = len(args) - len(defaults) + default_i
+            fnspec['defaults'][args[i]] = default
+    return fnspec
 
 def reflect_all(scope):
     """extract all specs from the top level values in scope"""

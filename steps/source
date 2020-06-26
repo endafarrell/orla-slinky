@@ -11,14 +11,14 @@ import twitter as tw
 import healthgraph
 
 
-if not any([x for x in sys.path if "orla-lib" in x]):
+if not any(x for x in sys.path if "orla-lib" in x):
     sys.path.append("/".join(sys.path[0].split("/")[:-1] + ["/orla-lib/"]))
 
 from steps import step, run
 
 
 def healthgraph_APIobject_toJson(self):
-    d = dict()
+    d = {}
     if self._resource:
         d["resource"] = self._resource
 

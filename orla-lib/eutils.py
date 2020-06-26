@@ -64,10 +64,7 @@ def mppool(size=None):
     """wrap a pool in a context manager that waits for all tasks to finish
        (note that pool itself implements context manager, but on exit it terminates
        immeditaely, without waiting for work to finish)"""
-    if size is not None:
-        p = multiprocessing.Pool(size)
-    else:
-        p = multiprocessing.Pool()
+    p = multiprocessing.Pool(size) if size is not None else multiprocessing.Pool()
     yield p
     p.close()
     p.join()
@@ -482,7 +479,7 @@ def gather_monthly_freqs(monthly_freqs_dir, last=None, num=None):
         for f in files:
             if f.endswith(".tsv"):
                 rf = os.path.join(root, f)
-                if not "/2013/2014-" in rf and not "/2014/2013-" in rf:
+                if "/2013/2014-" not in rf and "/2014/2013-" not in rf:
                     if last:
                         if f[:len(last)] <= last:
                             fs[rf] = f
@@ -620,11 +617,10 @@ def duration(seconds):
     sec = int(round(seconds))
     if seconds < 100:
         return "{} sec".format(sec)
+    m, s = divmod(sec, 60)
     if seconds < 60 * 60:
-        m, s = divmod(sec, 60)
         return "{} sec ({}m:{:02}s)".format(sec, m, s)
     else:
-        m, s = divmod(sec, 60)
         h, m = divmod(m, 60)
         return "{} sec ({}h:{:02}m:{:02}s)".format(sec, h, m, s)
 

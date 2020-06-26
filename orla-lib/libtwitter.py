@@ -15,8 +15,10 @@ def load(jsons_file, dbname):
     # We'd like a list of dicts for insertion in bulk to the database
     as_dicts = df.to_dict(orient="record")
 
-    # There are a lot of columns ...
-    sql_tmpl = u"""
+    with connect(dbname) as conn:
+        with conn.cursor() as cursor:
+            # There are a lot of columns ...
+            sql_tmpl = u"""
         INSERT INTO load_twitter (
             "_source_file",
             "id",
@@ -37,7 +39,5 @@ def load(jsons_file, dbname):
             %(text)s
         ); """
 
-    with connect(dbname) as conn:
-        with conn.cursor() as cursor:
             cursor.executemany(sql_tmpl, as_dicts)
         conn.commit()

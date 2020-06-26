@@ -30,18 +30,16 @@ def load_device(root, dbname, xml_file):
 
         attrs["_source_file"] = xml_file
 
-        if not "carb" in attrs:
-            attrs["carb"] = None
-        else:
-            attrs["carb"] = int(attrs["carb"])
-
+        attrs["carb"] = None if "carb" not in attrs else int(attrs["carb"])
         for a in ("flg", "evt", "ins1"):
-            if not a in attrs:
+            if a not in attrs:
                 attrs[a] = None
 
         attrss.append(attrs)
 
-    sql_tmpl = u"""
+    with connect(dbname) as conn:
+        with conn.cursor() as cursor:
+            sql_tmpl = u"""
         INSERT INTO load_smartpix_device (
             _source_file,
             val,
@@ -64,8 +62,6 @@ def load_device(root, dbname, xml_file):
             %(d)s
         )
     """
-    with connect(dbname) as conn:
-        with conn.cursor() as cursor:
             cursor.executemany(sql_tmpl, attrss)
         conn.commit()
 
@@ -125,7 +121,7 @@ def load_ip(root, dbname, xml_file):
         attrs["_source_file"] = xml_file
         attrs["amount"] = float(attrs["amount"])
         for a in ("type", "cmd", "remark"):
-            if not a in attrs:
+            if a not in attrs:
                 attrs[a] = None
 
         boluses.append(attrs)
@@ -159,7 +155,7 @@ def load_ip(root, dbname, xml_file):
         attrs = event.attrs
         attrs["_source_file"] = xml_file
         for a in ("shortinfo", "description"):
-            if not a in attrs:
+            if a not in attrs:
                 attrs[a] = None
 
         events.append(attrs)

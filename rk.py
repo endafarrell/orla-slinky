@@ -47,8 +47,7 @@ def make_authorization_url():
               "redirect_uri": REDIRECT_URI,
               "duration": "temporary",
               "scope": "identity"}
-    url = "{}?{}".format(AUTHORIZATION_URL, urllib.urlencode(params))
-    return url
+    return "{}?{}".format(AUTHORIZATION_URL, urllib.urlencode(params))
 
 
 # Left as an exercise to the reader.

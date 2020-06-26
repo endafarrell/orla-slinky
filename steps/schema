@@ -2,7 +2,7 @@
 import sys
 import psycopg2
 
-if not any([x for x in sys.path if "orla-lib" in x]):
+if not any(x for x in sys.path if "orla-lib" in x):
     sys.path.append("/".join(sys.path[0].split("/")[:-1] + ["/orla-lib/"]))
 from steps import step, run
 import eutils

@@ -30,8 +30,11 @@ def load(txt_file, dbname=None):
     for d in as_dicts:
         d["_source_file"] = txt_file
 
-    # There are a lot of columns ...
-    sql_tmpl = u"""
+    with connect(dbname) as conn:
+        with conn.cursor() as cursor:
+            assert 'Historic Glucose [mmol/L]' in as_dicts[0], as_dicts[0].keys()
+            # There are a lot of columns ...
+            sql_tmpl = u"""
         INSERT INTO load_libre (
             "_source_file",
             "ID",
@@ -76,8 +79,5 @@ def load(txt_file, dbname=None):
             %(Updated Time)s
         ); """
 
-    with connect(dbname) as conn:
-        with conn.cursor() as cursor:
-            assert 'Historic Glucose [mmol/L]' in as_dicts[0], as_dicts[0].keys()
             cursor.executemany(sql_tmpl, as_dicts)
         conn.commit()

@@ -218,7 +218,7 @@ class Slinky(object):
     def __init__(self, stepfiles, tagfile, statedir):
         self.definedtags = tagfile and (isinstance(tagfile, dict) and tagfile or Slinky.load_tags(tagfile)) or {}
         self.steps = self.read_stepfiles(stepfiles)
-        self.stepfiles = set(s.stepfile for s in self.steps.values() if not s.tag)
+        self.stepfiles = {s.stepfile for s in self.steps.values() if not s.tag}
         self.statedir = statedir
 
         if statedir is not None:
